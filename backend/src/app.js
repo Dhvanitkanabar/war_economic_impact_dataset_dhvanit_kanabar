@@ -4,14 +4,17 @@ const morgan = require('morgan');
 
 const app = express();
 
-// Basic Middlewares
+// Middlewares
 app.use(express.json());
 app.use(cors());
 app.use(morgan('dev'));
 
-// Starter Route
+// Test Route
 app.get('/', (req, res) => {
-  res.json({ message: 'WarLens API Starter' });
+  res.status(200).json({
+    success: true,
+    message: "WarLens API running successfully"
+  });
 });
 
 module.exports = app;
