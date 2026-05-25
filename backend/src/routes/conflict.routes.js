@@ -2,7 +2,10 @@ const express = require("express");
 const {
   createConflict,
   getAllConflicts,
-  getConflictById
+  getConflictById,
+  replaceConflict,
+  updateConflict,
+  deleteConflict
 } = require("../controllers/conflict.controller");
 
 const router = express.Router();
@@ -11,5 +14,9 @@ const router = express.Router();
 router.get("/", getAllConflicts);
 router.get("/:id", getConflictById);
 router.post("/", createConflict);
+router.put("/:id", replaceConflict);
+router.patch("/:id", updateConflict);
+router.delete("/:id", deleteConflict);
 
 module.exports = router;
+
