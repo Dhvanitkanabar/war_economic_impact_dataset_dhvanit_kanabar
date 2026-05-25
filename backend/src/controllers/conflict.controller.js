@@ -300,12 +300,66 @@ const deleteConflict = async (req, res) => {
   }
 };
 
+// API 7: SEARCH CONFLICTS
+const searchConflicts = async (req, res) => {
+  try {
+    const { keyword } = req.query;
+    if (!keyword || keyword.trim() === "") {
+      return res.status(400).json({
+        success: false,
+        message: "Search keyword is required"
+      });
+    }
+
+    const searchQuery = {
+      $or: [
+        { conflictName: { $regex: keyword, $options: "i" } },
+        { conflictType: { $regex: keyword, $options: "i" } },
+        { region: { $regex: keyword, $options: "i" } },
+        { primaryCountry: { $regex: keyword, $options: "i" } },
+        { mostAffectedSector: { $regex: keyword, $options: "i" } },
+        { primaryBlackMarketGoods: { $regex: keyword, $options: "i" } },
+        { blackMarketActivityLevel: { $regex: keyword, $options: "i" } },
+        { status: { $regex: keyword, $options: "i" } }
+      ]
+    };
+
+    const conflicts = await Conflict.find(searchQuery).sort("-createdAt");
+
+    if (conflicts.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No conflicts found for this keyword",
+        keyword: keyword,
+        total: 0,
+        data: []
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Search results fetched successfully",
+      keyword: keyword,
+      total: conflicts.length,
+      data: conflicts
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to search conflicts",
+      error: error.message
+    });
+  }
+};
+
 module.exports = {
   createConflict,
   getAllConflicts,
   getConflictById,
   replaceConflict,
   updateConflict,
-  deleteConflict
+  deleteConflict,
+  searchConflicts
 };
+
 
