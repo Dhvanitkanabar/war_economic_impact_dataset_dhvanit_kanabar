@@ -352,6 +352,166 @@ const searchConflicts = async (req, res) => {
   }
 };
 
+// API 8: STATS OVERVIEW
+const getConflictStatsOverview = async (req, res) => {
+  try {
+    const stats = await Conflict.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalConflicts: { $sum: 1 },
+          ongoingConflicts: {
+            $sum: { $cond: [{ $eq: ["$status", "Ongoing"] }, 1, 0] }
+          },
+          resolvedConflicts: {
+            $sum: { $cond: [{ $eq: ["$status", "Resolved"] }, 1, 0] }
+          },
+          totalWarCostUsd: { $sum: "$warCostUsd" },
+          totalReconstructionCostUsd: { $sum: "$reconstructionCostUsd" },
+          averageInflationRate: { $avg: "$inflationRate" },
+          averageGDPChange: { $avg: "$gdpChange" },
+          averageUnemploymentSpike: { $avg: "$unemploymentSpike" },
+          averagePovertyRate: { $avg: "$duringWarPovertyRate" }
+        }
+      }
+    ]);
+
+    let data = {
+      totalConflicts: 0,
+      ongoingConflicts: 0,
+      resolvedConflicts: 0,
+      totalWarCostUsd: 0,
+      totalReconstructionCostUsd: 0,
+      averageInflationRate: 0,
+      averageGDPChange: 0,
+      averageUnemploymentSpike: 0,
+      averagePovertyRate: 0
+    };
+
+    if (stats && stats.length > 0) {
+      data = {
+        totalConflicts: stats[0].totalConflicts || 0,
+        ongoingConflicts: stats[0].ongoingConflicts || 0,
+        resolvedConflicts: stats[0].resolvedConflicts || 0,
+        totalWarCostUsd: stats[0].totalWarCostUsd || 0,
+        totalReconstructionCostUsd: stats[0].totalReconstructionCostUsd || 0,
+        averageInflationRate: stats[0].averageInflationRate || 0,
+        averageGDPChange: stats[0].averageGDPChange || 0,
+        averageUnemploymentSpike: stats[0].averageUnemploymentSpike || 0,
+        averagePovertyRate: stats[0].averagePovertyRate || 0
+      };
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Conflict statistics overview fetched successfully",
+      data: data
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch conflict statistics overview",
+      error: error.message
+    });
+  }
+};
+
+// API 9: HIGHEST INFLATION CONFLICT
+const getHighestInflationConflict = async (req, res) => {
+  try {
+    const conflict = await Conflict.findOne().sort({ inflationRate: -1 });
+    if (!conflict) {
+      return res.status(404).json({
+        success: false,
+        message: "No conflict data found"
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Highest inflation conflict fetched successfully",
+      data: conflict
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch highest inflation conflict",
+      error: error.message
+    });
+  }
+};
+
+// API 10: LOWEST GDP CONFLICT
+const getLowestGDPConflict = async (req, res) => {
+  try {
+    const conflict = await Conflict.findOne().sort({ gdpChange: 1 });
+    if (!conflict) {
+      return res.status(404).json({
+        success: false,
+        message: "No conflict data found"
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Lowest GDP conflict fetched successfully",
+      data: conflict
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch lowest GDP conflict",
+      error: error.message
+    });
+  }
+};
+
+// API 11: HIGHEST WAR COST CONFLICT
+const getHighestWarCostConflict = async (req, res) => {
+  try {
+    const conflict = await Conflict.findOne().sort({ warCostUsd: -1 });
+    if (!conflict) {
+      return res.status(404).json({
+        success: false,
+        message: "No conflict data found"
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Highest war cost conflict fetched successfully",
+      data: conflict
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch highest war cost conflict",
+      error: error.message
+    });
+  }
+};
+
+// API 12: HIGHEST RECONSTRUCTION COST CONFLICT
+const getHighestReconstructionCostConflict = async (req, res) => {
+  try {
+    const conflict = await Conflict.findOne().sort({ reconstructionCostUsd: -1 });
+    if (!conflict) {
+      return res.status(404).json({
+        success: false,
+        message: "No conflict data found"
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Highest reconstruction cost conflict fetched successfully",
+      data: conflict
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch highest reconstruction cost conflict",
+      error: error.message
+    });
+  }
+};
+
 module.exports = {
   createConflict,
   getAllConflicts,
@@ -359,7 +519,13 @@ module.exports = {
   replaceConflict,
   updateConflict,
   deleteConflict,
-  searchConflicts
+  searchConflicts,
+  getConflictStatsOverview,
+  getHighestInflationConflict,
+  getLowestGDPConflict,
+  getHighestWarCostConflict,
+  getHighestReconstructionCostConflict
 };
+
 
 

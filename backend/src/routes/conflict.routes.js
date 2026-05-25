@@ -6,13 +6,23 @@ const {
   replaceConflict,
   updateConflict,
   deleteConflict,
-  searchConflicts
+  searchConflicts,
+  getConflictStatsOverview,
+  getHighestInflationConflict,
+  getLowestGDPConflict,
+  getHighestWarCostConflict,
+  getHighestReconstructionCostConflict
 } = require("../controllers/conflict.controller");
 
 const router = express.Router();
 
 // Define routes
 router.get("/search", searchConflicts);
+router.get("/stats/overview", getConflictStatsOverview);
+router.get("/stats/highest-inflation", getHighestInflationConflict);
+router.get("/stats/lowest-gdp", getLowestGDPConflict);
+router.get("/stats/highest-war-cost", getHighestWarCostConflict);
+router.get("/stats/highest-reconstruction-cost", getHighestReconstructionCostConflict);
 router.get("/", getAllConflicts);
 router.get("/:id", getConflictById);
 router.post("/", createConflict);
@@ -21,5 +31,6 @@ router.patch("/:id", updateConflict);
 router.delete("/:id", deleteConflict);
 
 module.exports = router;
+
 
 
