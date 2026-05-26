@@ -512,6 +512,254 @@ const getHighestReconstructionCostConflict = async (req, res) => {
   }
 };
 
+// API 13: REGION DISTRIBUTION
+const getRegionDistribution = async (req, res) => {
+  try {
+    const result = await Conflict.aggregate([
+      {
+        $group: {
+          _id: "$region",
+          totalConflicts: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { totalConflicts: -1 }
+      },
+      {
+        $project: {
+          _id: 0,
+          region: "$_id",
+          totalConflicts: 1
+        }
+      }
+    ]);
+
+    if (!result || result.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No analytics data found",
+        totalGroups: 0,
+        data: []
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Region distribution fetched successfully",
+      totalGroups: result.length,
+      data: result
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch region distribution",
+      error: error.message
+    });
+  }
+};
+
+// API 14: CONFLICT TYPE DISTRIBUTION
+const getConflictTypeDistribution = async (req, res) => {
+  try {
+    const result = await Conflict.aggregate([
+      {
+        $group: {
+          _id: "$conflictType",
+          totalConflicts: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { totalConflicts: -1 }
+      },
+      {
+        $project: {
+          _id: 0,
+          conflictType: "$_id",
+          totalConflicts: 1
+        }
+      }
+    ]);
+
+    if (!result || result.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No analytics data found",
+        totalGroups: 0,
+        data: []
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Conflict type distribution fetched successfully",
+      totalGroups: result.length,
+      data: result
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch conflict type distribution",
+      error: error.message
+    });
+  }
+};
+
+// API 15: WAR COST BY REGION
+const getWarCostByRegion = async (req, res) => {
+  try {
+    const result = await Conflict.aggregate([
+      {
+        $group: {
+          _id: "$region",
+          totalWarCostUsd: { $sum: "$warCostUsd" },
+          averageWarCostUsd: { $avg: "$warCostUsd" },
+          totalConflicts: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { totalWarCostUsd: -1 }
+      },
+      {
+        $project: {
+          _id: 0,
+          region: "$_id",
+          totalConflicts: 1,
+          totalWarCostUsd: 1,
+          averageWarCostUsd: { $round: ["$averageWarCostUsd", 2] }
+        }
+      }
+    ]);
+
+    if (!result || result.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No analytics data found",
+        totalGroups: 0,
+        data: []
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "War cost by region fetched successfully",
+      totalGroups: result.length,
+      data: result
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch war cost by region",
+      error: error.message
+    });
+  }
+};
+
+// API 16: INFLATION BY REGION
+const getInflationByRegion = async (req, res) => {
+  try {
+    const result = await Conflict.aggregate([
+      {
+        $group: {
+          _id: "$region",
+          averageInflationRate: { $avg: "$inflationRate" },
+          highestInflationRate: { $max: "$inflationRate" },
+          lowestInflationRate: { $min: "$inflationRate" },
+          totalConflicts: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { averageInflationRate: -1 }
+      },
+      {
+        $project: {
+          _id: 0,
+          region: "$_id",
+          totalConflicts: 1,
+          averageInflationRate: { $round: ["$averageInflationRate", 2] },
+          highestInflationRate: { $round: ["$highestInflationRate", 2] },
+          lowestInflationRate: { $round: ["$lowestInflationRate", 2] }
+        }
+      }
+    ]);
+
+    if (!result || result.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No analytics data found",
+        totalGroups: 0,
+        data: []
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Inflation by region fetched successfully",
+      totalGroups: result.length,
+      data: result
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch inflation by region",
+      error: error.message
+    });
+  }
+};
+
+// API 17: SECTOR IMPACT ANALYSIS
+const getSectorImpactAnalysis = async (req, res) => {
+  try {
+    const result = await Conflict.aggregate([
+      {
+        $group: {
+          _id: "$mostAffectedSector",
+          totalConflicts: { $sum: 1 },
+          averageGDPChange: { $avg: "$gdpChange" },
+          averageInflationRate: { $avg: "$inflationRate" },
+          averageUnemploymentSpike: { $avg: "$unemploymentSpike" },
+          totalWarCostUsd: { $sum: "$warCostUsd" }
+        }
+      },
+      {
+        $sort: { totalConflicts: -1 }
+      },
+      {
+        $project: {
+          _id: 0,
+          sector: "$_id",
+          totalConflicts: 1,
+          averageGDPChange: { $round: ["$averageGDPChange", 2] },
+          averageInflationRate: { $round: ["$averageInflationRate", 2] },
+          averageUnemploymentSpike: { $round: ["$averageUnemploymentSpike", 2] },
+          totalWarCostUsd: 1
+        }
+      }
+    ]);
+
+    if (!result || result.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No analytics data found",
+        totalGroups: 0,
+        data: []
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Sector impact analysis fetched successfully",
+      totalGroups: result.length,
+      data: result
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch sector impact analysis",
+      error: error.message
+    });
+  }
+};
+
 module.exports = {
   createConflict,
   getAllConflicts,
@@ -524,7 +772,12 @@ module.exports = {
   getHighestInflationConflict,
   getLowestGDPConflict,
   getHighestWarCostConflict,
-  getHighestReconstructionCostConflict
+  getHighestReconstructionCostConflict,
+  getRegionDistribution,
+  getConflictTypeDistribution,
+  getWarCostByRegion,
+  getInflationByRegion,
+  getSectorImpactAnalysis
 };
 
 
