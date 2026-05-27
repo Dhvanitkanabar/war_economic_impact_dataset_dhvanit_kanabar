@@ -19,6 +19,8 @@ const {
   getSectorImpactAnalysis
 } = require("../controllers/conflict.controller");
 
+const { protect, adminOnly } = require("../middlewares/auth.middleware");
+
 const router = express.Router();
 
 // Define routes
@@ -35,10 +37,10 @@ router.get("/analytics/inflation-by-region", getInflationByRegion);
 router.get("/analytics/sector-impact", getSectorImpactAnalysis);
 router.get("/", getAllConflicts);
 router.get("/:id", getConflictById);
-router.post("/", createConflict);
-router.put("/:id", replaceConflict);
-router.patch("/:id", updateConflict);
-router.delete("/:id", deleteConflict);
+router.post("/", protect, adminOnly, createConflict);
+router.put("/:id", protect, adminOnly, replaceConflict);
+router.patch("/:id", protect, adminOnly, updateConflict);
+router.delete("/:id", protect, adminOnly, deleteConflict);
 
 module.exports = router;
 
