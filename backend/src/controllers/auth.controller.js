@@ -1,6 +1,7 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const asyncHandler = require("../utils/asyncHandler");
 
 // JWT Helper function
 const generateToken = (userId) => {
@@ -12,7 +13,7 @@ const generateToken = (userId) => {
 };
 
 // API 1: REGISTER USER
-const registerUser = async (req, res) => {
+const registerUser = asyncHandler(async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
@@ -64,10 +65,10 @@ const registerUser = async (req, res) => {
       error: error.message
     });
   }
-};
+});
 
 // API 2: LOGIN USER
-const loginUser = async (req, res) => {
+const loginUser = asyncHandler(async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -118,10 +119,10 @@ const loginUser = async (req, res) => {
       error: error.message
     });
   }
-};
+});
 
 // API 3: GET AUTH PROFILE
-const getAuthProfile = async (req, res) => {
+const getAuthProfile = asyncHandler(async (req, res) => {
   try {
     return res.status(200).json({
       success: true,
@@ -135,7 +136,7 @@ const getAuthProfile = async (req, res) => {
       error: error.message
     });
   }
-};
+});
 
 module.exports = {
   registerUser,

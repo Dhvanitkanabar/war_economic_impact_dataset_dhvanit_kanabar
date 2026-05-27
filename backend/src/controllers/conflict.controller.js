@@ -1,4 +1,5 @@
 const Conflict = require("../models/conflict.model");
+const asyncHandler = require("../utils/asyncHandler");
 
 // API 1: CREATE CONFLICT
 const createConflict = async (req, res) => {
@@ -761,23 +762,23 @@ const getSectorImpactAnalysis = async (req, res) => {
 };
 
 module.exports = {
-  createConflict,
-  getAllConflicts,
-  getConflictById,
-  replaceConflict,
-  updateConflict,
-  deleteConflict,
-  searchConflicts,
-  getConflictStatsOverview,
-  getHighestInflationConflict,
-  getLowestGDPConflict,
-  getHighestWarCostConflict,
-  getHighestReconstructionCostConflict,
-  getRegionDistribution,
-  getConflictTypeDistribution,
-  getWarCostByRegion,
-  getInflationByRegion,
-  getSectorImpactAnalysis
+  createConflict: asyncHandler(createConflict),
+  getAllConflicts: asyncHandler(getAllConflicts),
+  getConflictById: asyncHandler(getConflictById),
+  replaceConflict: asyncHandler(replaceConflict),
+  updateConflict: asyncHandler(updateConflict),
+  deleteConflict: asyncHandler(deleteConflict),
+  searchConflicts: asyncHandler(searchConflicts),
+  getConflictStatsOverview: asyncHandler(getConflictStatsOverview),
+  getHighestInflationConflict: asyncHandler(getHighestInflationConflict),
+  getLowestGDPConflict: asyncHandler(getLowestGDPConflict),
+  getHighestWarCostConflict: asyncHandler(getHighestWarCostConflict),
+  getHighestReconstructionCostConflict: asyncHandler(getHighestReconstructionCostConflict),
+  getRegionDistribution: asyncHandler(getRegionDistribution),
+  getConflictTypeDistribution: asyncHandler(getConflictTypeDistribution),
+  getWarCostByRegion: asyncHandler(getWarCostByRegion),
+  getInflationByRegion: asyncHandler(getInflationByRegion),
+  getSectorImpactAnalysis: asyncHandler(getSectorImpactAnalysis)
 };
 
 
