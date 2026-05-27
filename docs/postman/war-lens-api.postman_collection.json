@@ -12,6 +12,7 @@
         {
           "name": "Register",
           "request": {
+            "description": "Register a new user",
             "method": "POST",
             "header": [
               {
@@ -39,6 +40,7 @@
         {
           "name": "Login",
           "request": {
+            "description": "Login existing user and receive JWT token",
             "method": "POST",
             "header": [
               {
@@ -66,6 +68,7 @@
         {
           "name": "Profile",
           "request": {
+            "description": "Fetch authenticated user profile",
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -99,6 +102,7 @@
         {
           "name": "Get all conflicts",
           "request": {
+            "description": "Fetch conflict list with filtering, sorting and pagination",
             "method": "GET",
             "header": [],
             "url": {
@@ -130,16 +134,17 @@
         {
           "name": "Get conflict by id",
           "request": {
+            "description": "Fetch conflict by MongoDB ID",
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/conflicts/6a174471120fa0e65ea0bd95",
+              "raw": "{{baseUrl}}/conflicts/{{conflictId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "conflicts",
-                "6a174471120fa0e65ea0bd95"
+                "{{conflictId}}"
               ]
             }
           },
@@ -148,6 +153,7 @@
         {
           "name": "Create conflict",
           "request": {
+            "description": "Create conflict (Admin only)",
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -184,6 +190,7 @@
         {
           "name": "Replace conflict",
           "request": {
+            "description": "Replace conflict document (Admin only)",
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -206,13 +213,13 @@
               "raw": "{\n  \"conflictName\": \"Gulf War (Replaced)\",\n  \"conflictType\": \"Interstate War\",\n  \"region\": \"Middle East\",\n  \"startYear\": 1990,\n  \"endYear\": 1991,\n  \"status\": \"Resolved\",\n  \"primaryCountry\": \"Iraq\",\n  \"gdpChange\": -16.0,\n  \"inflationRate\": 26.0,\n  \"warCostUsd\": 62000000000,\n  \"reconstructionCostUsd\": 82000000000\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/conflicts/6a174471120fa0e65ea0bd95",
+              "raw": "{{baseUrl}}/conflicts/{{conflictId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "conflicts",
-                "6a174471120fa0e65ea0bd95"
+                "{{conflictId}}"
               ]
             }
           },
@@ -221,6 +228,7 @@
         {
           "name": "Update conflict",
           "request": {
+            "description": "Update selected conflict fields (Admin only)",
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -243,13 +251,13 @@
               "raw": "{\n  \"status\": \"Ongoing\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/conflicts/6a174471120fa0e65ea0bd95",
+              "raw": "{{baseUrl}}/conflicts/{{conflictId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "conflicts",
-                "6a174471120fa0e65ea0bd95"
+                "{{conflictId}}"
               ]
             }
           },
@@ -258,6 +266,7 @@
         {
           "name": "Delete conflict",
           "request": {
+            "description": "Delete conflict (Admin only)",
             "auth": {
               "type": "bearer",
               "bearer": [
@@ -271,13 +280,13 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/conflicts/6a174471120fa0e65ea0bd95",
+              "raw": "{{baseUrl}}/conflicts/{{conflictId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "conflicts",
-                "6a174471120fa0e65ea0bd95"
+                "{{conflictId}}"
               ]
             }
           },
@@ -291,6 +300,7 @@
         {
           "name": "Search",
           "request": {
+            "description": "Search conflicts using keyword",
             "method": "GET",
             "header": [],
             "url": {
@@ -320,6 +330,7 @@
         {
           "name": "Stats Overview",
           "request": {
+            "description": "Fetch conflict statistics overview",
             "method": "GET",
             "header": [],
             "url": {
@@ -339,6 +350,7 @@
         {
           "name": "Highest Inflation",
           "request": {
+            "description": "Fetch highest inflation conflict",
             "method": "GET",
             "header": [],
             "url": {
@@ -358,6 +370,7 @@
         {
           "name": "Lowest GDP",
           "request": {
+            "description": "Fetch lowest GDP conflict",
             "method": "GET",
             "header": [],
             "url": {
@@ -377,6 +390,7 @@
         {
           "name": "Highest War Cost",
           "request": {
+            "description": "Fetch highest war cost conflict",
             "method": "GET",
             "header": [],
             "url": {
@@ -396,6 +410,7 @@
         {
           "name": "Highest Reconstruction Cost",
           "request": {
+            "description": "Fetch highest reconstruction cost conflict",
             "method": "GET",
             "header": [],
             "url": {
@@ -420,6 +435,7 @@
         {
           "name": "Region Distribution",
           "request": {
+            "description": "Fetch grouped conflict count by region",
             "method": "GET",
             "header": [],
             "url": {
@@ -439,6 +455,7 @@
         {
           "name": "Type Distribution",
           "request": {
+            "description": "Fetch grouped conflict count by type",
             "method": "GET",
             "header": [],
             "url": {
@@ -458,6 +475,7 @@
         {
           "name": "War Cost by Region",
           "request": {
+            "description": "Fetch war cost analytics by region",
             "method": "GET",
             "header": [],
             "url": {
@@ -477,6 +495,7 @@
         {
           "name": "Inflation by Region",
           "request": {
+            "description": "Fetch inflation analytics by region",
             "method": "GET",
             "header": [],
             "url": {
@@ -496,6 +515,7 @@
         {
           "name": "Sector Impact",
           "request": {
+            "description": "Fetch sector impact analytics",
             "method": "GET",
             "header": [],
             "url": {
@@ -513,6 +533,23 @@
           "response": []
         }
       ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "conflictId",
+      "value": "",
+      "type": "string"
     }
   ]
 }
