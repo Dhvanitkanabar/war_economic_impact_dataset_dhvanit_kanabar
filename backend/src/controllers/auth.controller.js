@@ -53,7 +53,8 @@ const registerUser = async (req, res) => {
       data: {
         id: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        role: user.role
       }
     });
   } catch (error) {
@@ -106,7 +107,8 @@ const loginUser = async (req, res) => {
       data: {
         id: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        role: user.role
       }
     });
   } catch (error) {
