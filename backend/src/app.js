@@ -3,6 +3,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const conflictRoutes = require("./routes/conflict.routes");
 const authRoutes = require("./routes/auth.routes");
+const { notFound, errorHandler } = require("./middlewares/error.middleware");
 
 const app = express();
 
@@ -22,5 +23,9 @@ app.get('/', (req, res) => {
     message: "WarLens API running successfully"
   });
 });
+
+// Error handling middlewares
+app.use(notFound);
+app.use(errorHandler);
 
 module.exports = app;
