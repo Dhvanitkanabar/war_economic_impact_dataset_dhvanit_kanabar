@@ -114,6 +114,22 @@ All API requests must be made to the following base endpoint:
 
 ---
 
+## HEALTH API
+
+### 1. API Health Check
+- **Method**: `GET`
+- **URL**: `/health`
+- **Purpose**: Verifies the API is running and reachable.
+- **Example Success Response (`200 OK`)**:
+```json
+{
+  "success": true,
+  "message": "WarLens API is healthy"
+}
+```
+
+---
+
 ## CONFLICT APIs
 
 ### 1. Get All Conflicts

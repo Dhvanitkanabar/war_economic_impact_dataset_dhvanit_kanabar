@@ -292,6 +292,6 @@ npm run dev
 4. **Login**: Execute `Login User` in the `AUTHENTICATION` folder and copy the returned `token`.
 5. **Set Bearer Token**: In your Postman environment, paste the token into the `token` variable. Alternatively, under collection options set Authorization type to **Bearer Token** and value to `{{token}}`.
 6. **Verify Access**:
-   - Try to call administrative routes (e.g. `GET /admin/dashboard`). A normal user will receive `403 Access denied, admin only`.
-   - Upgrade the user's role to `"admin"` directly in MongoDB to test complete administrative access.
+   - Attempt to call protected conflict modification endpoints (e.g. `POST /conflicts`, `PUT /conflicts/:id`) with a normal user token. A normal user should receive `403 Access denied, admin only`.
+   - Upgrade the user's role to `"admin"` directly in MongoDB to test authorized administrative conflict access.
    - Spam login routes to trigger rate-limiting and verify `429 Too Many Requests` is returned successfully.

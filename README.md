@@ -1,121 +1,298 @@
-# WarLens — Global War Economic Impact Analysis Platform
+# 🌍 WarLens – War Economic Impact Analysis Platform
 
-WarLens is a professional, full-stack analytics platform designed to analyze, manage, and visualize the multi-dimensional economic and socioeconomic impacts of global wars and conflicts.
+## 📖 Overview
 
-This repository contains a high-performance **Express/Node.js & MongoDB Backend** with over 100 fully-implemented API endpoints, robust JWT security, generic record management, full-text and categorical search operators, custom rate limiters, schema validations, and a comprehensive React skeleton structure.
+WarLens is a full-stack data analytics platform designed to analyze the economic impact of wars and conflicts around the world.
 
----
+The platform provides insights into inflation, GDP decline, unemployment, poverty rates, food insecurity, reconstruction costs, war expenses, and black market activities caused by conflicts.
 
-## 🛠 Technology Stack
-
-### Backend Engine
-- **Node.js** — High-performance Javascript runtime environment.
-- **Express.js** — Minimalist, robust server framework.
-- **MongoDB** — Document-based NoSQL database for unstructured and flexible records.
-- **Mongoose** — Elegant schema-based modeling tool for MongoDB.
-- **JSON Web Token (JWT)** — Secure, stateless client-server session authentication.
-- **bcryptjs** — Salted password hashing for cryptographic safety.
-
-### Frontend Skeleton
-- **React.js** — Component-driven frontend user interface library.
-- **Vite** — Extreme-speed frontend development build tool.
-- **Tailwind CSS** — Modern utility-first CSS framework.
-- **Recharts** — High-performance chart rendering library.
-- **Redux** — Unified application state management.
+WarLens helps users explore historical and ongoing conflicts through powerful search, filtering, analytics, and visualization tools.
 
 ---
 
-## 📂 Project Directory Structure
+## 🎯 Problem Statement
 
-```
-war_economic_impact_dataset_dhvanit_kanabar/
+Wars affect economies in multiple ways, but the data is often scattered across reports and datasets.
+
+WarLens centralizes this information and provides:
+
+* Economic impact analysis
+* Conflict statistics
+* Region-wise insights
+* Searchable conflict database
+* Interactive analytics dashboard
+* Role-based administration system
+
+---
+
+## 🚀 Features
+
+### Conflict Management
+
+* Create conflict records
+* View all conflicts
+* View conflict details
+* Update conflict information
+* Delete conflict records
+
+### Search & Filtering
+
+* Keyword search
+* Region filtering
+* Country filtering
+* Conflict type filtering
+* Status filtering
+* Economic indicator filtering
+
+### Sorting & Pagination
+
+* Inflation sorting
+* GDP sorting
+* War cost sorting
+* Reconstruction cost sorting
+* Paginated results
+
+### Statistics
+
+* Total conflicts
+* Ongoing conflicts
+* Resolved conflicts
+* Highest inflation conflict
+* Lowest GDP conflict
+* Highest war cost conflict
+* Highest reconstruction cost conflict
+
+### Analytics
+
+* Region distribution
+* Conflict type distribution
+* War cost by region
+* Inflation by region
+* Sector impact analysis
+
+### Authentication & Security
+
+* User Registration
+* User Login
+* JWT Authentication
+* Protected Routes
+* Admin Authorization
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+
+* React.js
+* Vite
+* Tailwind CSS (Planned)
+* Redux Toolkit
+* Axios
+* React Router DOM
+
+### Backend
+
+* Node.js
+* Express.js
+
+### Database
+
+* MongoDB Atlas
+* Mongoose
+
+### Authentication
+
+* JWT
+* bcryptjs
+
+### Testing
+
+* Postman
+
+### Deployment
+
+* Render (Backend)
+* Vercel (Frontend – Planned)
+
+---
+
+## 📂 Project Structure
+
+```bash
+warlens/
+│
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   └── README.md
+│
 ├── backend/
 │   ├── src/
-│   │   ├── config/          # Database connection configuration
-│   │   ├── controllers/     # Handlers mapping routes to database logic
-│   │   ├── data/            # Local data resources (dataset JSON)
-│   │   ├── docs/            # Postman collections documentation
-│   │   ├── middlewares/     # Auth checks, rate-limiters, input validation
-│   │   ├── models/          # Mongoose database models and schemas
-│   │   ├── routes/          # Express route definitions
-│   │   ├── seed/            # Ingestion scripts seeding dummy conflict data
-│   │   ├── utils/           # Global async wrappers & response formatters
-│   │   ├── validations/     # Request schema validations
-│   │   ├── app.js           # Express app setup and middleware routing
-│   │   └── index.js         # Port listener and MongoDB initializer
-│   ├── package.json         # Backend dependencies & run scripts
-│   └── README.md            # Detailed Backend API guide & Endpoints tables
-├── frontend/
-│   ├── public/              # Static public assets
-│   ├── src/                 # React source code skeleton
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   ├── package.json         # Frontend dependencies & Vite configurations
-│   └── README.md            # Frontend overview
-├── docs/                    # Global specifications and schema planning
-└── README.md                # Project landing overview
+│   │   ├── config/
+│   │   ├── controllers/
+│   │   ├── routes/
+│   │   ├── models/
+│   │   ├── middlewares/
+│   │   ├── seed/
+│   │   ├── utils/
+│   │   └── data/
+│   └── README.md
+│
+└── docs/
 ```
 
 ---
 
-## ✅ Completed REST API Capabilities
+## 🔐 Authentication Flow
 
-The backend REST API implementation is **100% complete**, fully verified, and ready for deployment. The following capabilities are fully operational:
-
-- [x] **Dual route prefixing**: Seamless support for both root (`/`) and conventional `/api/` routing.
-- [x] **Auxiliary record collections**: Dedicated Mongoose models for Region, Country, EconomicRecord, PovertyRecord, InflationRecord, BlackMarketRecord, WarCostRecord, ReconstructionRecord, and UnemploymentRecord.
-- [x] **Query filters & mapping**: Direct mapping of raw dataset headers (e.g. `Inflation_Rate_%`) to schema camelCase fields, support for numeric range boundaries, above/below operators, and chronicle/timeline overlap.
-- [x] **Keyword & Categorical search**: Full-text regex search and specific country/region/type/status/sector categorical lookup.
-- [x] **Custom rate-limiting**: High-performance in-memory IP rate limiter protecting logins, searches, and administrative bulk uploads.
-- [x] **Input validations**: Type, format, and value boundaries for conflict registration.
-- [x] **Individual statistic peaks**: Separate statistical endpoints returning total conflicts, resolved, ongoing, and extreme averages.
-- [x] **Comparison endpoints**: Side-by-side comparison of 2 conflicts.
-- [x] **AI conflict summary**: Smart aggregration-based rule-generator producing overview texts.
-- [x] **Authentication & JWT testing**: Full registration, login, logout, password resets, refresh tokens, and dedicated JWT test vectors.
-- [x] **Administrative controls**: Role authorization restricting write, edit, and delete actions.
-- [x] **Postman documentation**: Complete collection covering all 100+ endpoints across 13 highly-structured folders.
+1. User registers an account.
+2. User logs in.
+3. Server generates JWT token.
+4. Token is sent with protected requests.
+5. Middleware verifies token.
+6. Admin-only routes require admin role.
 
 ---
 
-## 🚀 Setting Up Locally
+## 📊 Dataset Information
 
-### 1. Backend Ingestion & Setup
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Configure environment variables in `.env` (copying `.env.example`):
-   ```bash
-   cp .env.example .env
-   ```
-4. Seed database from the JSON dataset:
-   ```bash
-   npm run seed
-   ```
-5. Start development backend:
-   ```bash
-   npm run dev
-   ```
+The project uses a curated War Economic Impact Dataset containing:
 
-### 2. Frontend Launch
-1. Navigate to the frontend directory:
-   ```bash
-   cd ../frontend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start frontend dev server:
-   ```bash
-   npm run dev
-   ```
+* Conflict Name
+* Conflict Type
+* Region
+* Country
+* Start Year
+* End Year
+* Inflation Rate
+* GDP Change
+* Poverty Rate
+* Food Insecurity
+* Unemployment
+* War Cost
+* Reconstruction Cost
+* Black Market Activity
+* Currency Devaluation
 
 ---
 
-## 👥 Author
+## 🌐 Live Deployment
+
+### Backend API
+
+```txt
+https://war-economic-impact-dataset-dhvanit.onrender.com
+```
+
+### API Base URL
+
+```txt
+https://war-economic-impact-dataset-dhvanit.onrender.com/api
+```
+
+---
+
+## 📌 API Highlights
+
+### Authentication
+
+```http
+POST /api/auth/register
+POST /api/auth/login
+GET  /api/auth/profile
+```
+
+### Conflicts
+
+```http
+GET    /api/conflicts
+GET    /api/conflicts/:id
+POST   /api/conflicts
+PUT    /api/conflicts/:id
+PATCH  /api/conflicts/:id
+DELETE /api/conflicts/:id
+```
+
+### Search
+
+```http
+GET /api/conflicts/search?keyword=Japan
+```
+
+### Statistics
+
+```http
+GET /api/conflicts/stats/overview
+GET /api/conflicts/stats/highest-inflation
+GET /api/conflicts/stats/lowest-gdp
+```
+
+### Analytics
+
+```http
+GET /api/conflicts/analytics/region-distribution
+GET /api/conflicts/analytics/type-distribution
+GET /api/conflicts/analytics/war-cost-by-region
+```
+
+---
+
+## 🎓 What I Learned
+
+Through this project, I gained hands-on experience in:
+
+* Express.js Architecture
+* MongoDB & Mongoose
+* REST API Development
+* JWT Authentication
+* Role-Based Access Control (RBAC)
+* Middleware Design
+* Search APIs
+* Filtering, Sorting & Pagination
+* Aggregation Pipelines
+* API Documentation
+* Postman Testing
+* Deployment using Render
+* GitHub Pull Request Workflow
+
+---
+
+## 📈 Current Status
+
+### Backend
+
+✅ Completed
+
+* CRUD APIs
+* Search APIs
+* Statistics APIs
+* Analytics APIs
+* Authentication
+* Authorization
+* Error Handling
+* Documentation
+* Deployment
+
+### Frontend
+
+🚧 In Progress
+
+* React Initialization
+* Architecture Setup
+* Dashboard Development (Upcoming)
+
+---
+
+## 👨‍💻 Developer
+
 **Dhvanit Kanabar**
+
+* GitHub: https://github.com/Dhvanitkanabar
+* LinkedIn: https://www.linkedin.com/in/dhvanit-kanabar/
+
+---
+
+## 📜 License
+
+This project is developed for educational and academic purposes.
