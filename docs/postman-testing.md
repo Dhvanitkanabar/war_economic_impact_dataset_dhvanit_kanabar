@@ -17,7 +17,7 @@ This document walks you through importing the API collection, setting environmen
 We recommend setting up a Postman Environment rather than hardcoding addresses. 
 
 Create a new environment (or set globals) with the following key-value pairs:
-- **`baseUrl`**: `http://localhost:5000/api`
+- **`baseUrl`**: `https://war-economic-impact-dataset-dhvanit.onrender.com/api`
 - **`token`**: Leave this blank initially (it will hold your JWT token).
 
 ---

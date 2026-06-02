@@ -6,7 +6,7 @@ This document provides a detailed reference of the available API routes, request
 
 ## Base URL
 All API requests must be made to the following base endpoint:
-`http://localhost:5000/api`
+`https://war-economic-impact-dataset-dhvanit.onrender.com/api`
 
 ---
 
@@ -109,6 +109,22 @@ All API requests must be made to the following base endpoint:
 {
   "success": false,
   "message": "Not authorized, token missing"
+}
+```
+
+---
+
+## HEALTH API
+
+### 1. API Health Check
+- **Method**: `GET`
+- **URL**: `/health`
+- **Purpose**: Verifies the API is running and reachable.
+- **Example Success Response (`200 OK`)**:
+```json
+{
+  "success": true,
+  "message": "WarLens API is healthy"
 }
 ```
 

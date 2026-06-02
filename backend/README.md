@@ -287,11 +287,11 @@ npm run dev
 ## 🧪 API Verification & Testing
 
 1. **Import Collection**: Import the provided collection JSON file `docs/postman/war-lens-api.postman_collection.json` into Postman.
-2. **Configure Environment Variables**: Set a global or environment variable `baseUrl` to `http://localhost:5000`.
+2. **Configure Environment Variables**: For testing against the deployed API set a global or environment variable `baseUrl` to `https://war-economic-impact-dataset-dhvanit.onrender.com/api`. For local development/testing keep `http://localhost:5000` as appropriate.
 3. **Register User**: Execute `Register User` in the `AUTHENTICATION` folder.
 4. **Login**: Execute `Login User` in the `AUTHENTICATION` folder and copy the returned `token`.
 5. **Set Bearer Token**: In your Postman environment, paste the token into the `token` variable. Alternatively, under collection options set Authorization type to **Bearer Token** and value to `{{token}}`.
 6. **Verify Access**:
-   - Try to call administrative routes (e.g. `GET /admin/dashboard`). A normal user will receive `403 Access denied, admin only`.
-   - Upgrade the user's role to `"admin"` directly in MongoDB to test complete administrative access.
+   - Attempt to call protected conflict modification endpoints (e.g. `POST /conflicts`, `PUT /conflicts/:id`) with a normal user token. A normal user should receive `403 Access denied, admin only`.
+   - Upgrade the user's role to `"admin"` directly in MongoDB to test authorized administrative conflict access.
    - Spam login routes to trigger rate-limiting and verify `429 Too Many Requests` is returned successfully.
