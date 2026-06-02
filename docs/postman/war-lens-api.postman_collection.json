@@ -2806,7 +2806,7 @@
     }
   ],
   "variable": [
-    { "key": "baseUrl", "value": "http://localhost:5000", "type": "string" },
+    { "key": "baseUrl", "value": "https://war-economic-impact-dataset-dhvanit.onrender.com/api", "type": "string" },
     { "key": "token", "value": "", "type": "string" },
     { "key": "conflictId", "value": "", "type": "string" }
   ]

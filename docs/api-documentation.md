@@ -6,7 +6,7 @@ This document provides a detailed reference of the available API routes, request
 
 ## Base URL
 All API requests must be made to the following base endpoint:
-`http://localhost:5000/api`
+`https://war-economic-impact-dataset-dhvanit.onrender.com/api`
 
 ---
 
