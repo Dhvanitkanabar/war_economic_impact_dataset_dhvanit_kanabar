@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '../components/Button.jsx';
 import Card from '../components/Card.jsx';
+import Input from '../components/Input.jsx';
 
 const Home = () => {
   return (
@@ -26,10 +27,34 @@ const Home = () => {
         </Card>
 
         <Card 
-          title="Basic Card" 
-          subtitle="No header action"
+          title="Form Components" 
+          subtitle="Input Fields"
         >
-          <p>This is a basic card displaying body content inside the reusable Card component. It uses the default surface background.</p>
+          <div className="flex flex-col space-y-4">
+            <Input 
+              label="Standard Input" 
+              name="standard" 
+              placeholder="Type something..." 
+            />
+            <Input 
+              label="Required Input" 
+              name="required" 
+              placeholder="This is required" 
+              required 
+            />
+            <Input 
+              label="Input with Error" 
+              name="error_input" 
+              placeholder="Error state" 
+              error="This field is invalid." 
+            />
+            <Input 
+              label="Disabled Input" 
+              name="disabled_input" 
+              placeholder="Cannot type here" 
+              disabled 
+            />
+          </div>
         </Card>
       </div>
     </div>
