@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  /* CSS reset improvements & Body styling */
+  html, body {
+    @apply h-full w-full m-0 p-0;
+    background-color: theme('colors.background');
+    color: theme('colors.neutral.100');
+    /* Font smoothing */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Global typography defaults */
+    font-family: theme('fontFamily.sans');
+    line-height: 1.5;
+  }
+
+  #root {
+    @apply h-full w-full flex flex-col;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold text-white tracking-tight;
+  }
+}
