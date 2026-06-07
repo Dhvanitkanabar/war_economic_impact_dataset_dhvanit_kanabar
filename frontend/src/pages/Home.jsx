@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '../components/Button.jsx';
 
 const Home = () => {
   return (
@@ -6,7 +7,14 @@ const Home = () => {
       <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-secondary-400 mb-4">
         Home
       </h1>
-      <p className="text-neutral-400 text-lg">Welcome to WarLens.</p>
+      <p className="text-neutral-400 text-lg mb-8">Welcome to WarLens.</p>
+      
+      <div className="flex flex-wrap gap-4 justify-center">
+        <Button variant="primary">Primary Button</Button>
+        <Button variant="secondary">Secondary Button</Button>
+        <Button variant="danger">Danger Button</Button>
+        <Button variant="ghost">Ghost Button</Button>
+      </div>
     </div>
   );
 };
