@@ -419,6 +419,57 @@ All API requests must be made to the following base endpoint:
 }
 ```
 
+### 3. Lowest GDP
+- **Method**: `GET`
+- **URL**: `/conflicts/stats/lowest-gdp`
+- **Purpose**: Returns the conflict with the lowest GDP growth/highest GDP loss.
+- **Example Success Response (`200 OK`)**:
+```json
+{
+  "success": true,
+  "message": "Lowest GDP conflict fetched successfully",
+  "data": {
+    "_id": "6a174471120fa0e65ea0bd95",
+    "conflictName": "Gulf War",
+    "gdpChange": -72.84
+  }
+}
+```
+
+### 4. Highest War Cost
+- **Method**: `GET`
+- **URL**: `/conflicts/stats/highest-war-cost`
+- **Purpose**: Returns the conflict with the highest war cost in USD.
+- **Example Success Response (`200 OK`)**:
+```json
+{
+  "success": true,
+  "message": "Highest war cost conflict fetched successfully",
+  "data": {
+    "_id": "6a174471120fa0e65ea0bd99",
+    "conflictName": "World War II - Pacific Theatre",
+    "warCostUsd": 341000000000
+  }
+}
+```
+
+### 5. Highest Reconstruction Cost
+- **Method**: `GET`
+- **URL**: `/conflicts/stats/highest-reconstruction-cost`
+- **Purpose**: Returns the conflict with the highest estimated reconstruction cost.
+- **Example Success Response (`200 OK`)**:
+```json
+{
+  "success": true,
+  "message": "Highest reconstruction cost conflict fetched successfully",
+  "data": {
+    "_id": "6a174471120fa0e65ea0bd99",
+    "conflictName": "World War II - Pacific Theatre",
+    "reconstructionCostUsd": 950000000000
+  }
+}
+```
+
 ---
 
 ## ANALYTICS APIs
@@ -460,3 +511,66 @@ All API requests must be made to the following base endpoint:
   ]
 }
 ```
+
+### 3. Type Distribution
+- **Method**: `GET`
+- **URL**: `/conflicts/analytics/type-distribution`
+- **Purpose**: Returns counts of conflicts grouped by type (e.g. World War, Civil War).
+- **Example Success Response (`200 OK`)**:
+```json
+{
+  "success": true,
+  "message": "Conflict type distribution fetched successfully",
+  "totalGroups": 3,
+  "data": [
+    { "conflictType": "World War", "totalConflicts": 15 },
+    { "conflictType": "Civil War", "totalConflicts": 8 }
+  ]
+}
+```
+
+### 4. Inflation By Region
+- **Method**: `GET`
+- **URL**: `/conflicts/analytics/inflation-by-region`
+- **Purpose**: Aggregate regional stats regarding average/highest/lowest inflation.
+- **Example Success Response (`200 OK`)**:
+```json
+{
+  "success": true,
+  "message": "Inflation by region fetched successfully",
+  "totalGroups": 2,
+  "data": [
+    {
+      "region": "Europe",
+      "totalConflicts": 4,
+      "averageInflationRate": 78.5,
+      "highestInflationRate": 132.83,
+      "lowestInflationRate": 41.72
+    }
+  ]
+}
+```
+
+### 5. Sector Impact
+- **Method**: `GET`
+- **URL**: `/conflicts/analytics/sector-impact`
+- **Purpose**: Returns average economic indicators (GDP, inflation, unemployment) grouped by most affected sector.
+- **Example Success Response (`200 OK`)**:
+```json
+{
+  "success": true,
+  "message": "Sector impact analysis fetched successfully",
+  "totalGroups": 3,
+  "data": [
+    {
+      "sector": "Agriculture",
+      "totalConflicts": 12,
+      "averageGDPChange": -25.4,
+      "averageInflationRate": 45.2,
+      "averageUnemploymentSpike": 15.3,
+      "totalWarCostUsd": 150000000
+    }
+  ]
+}
+```
+

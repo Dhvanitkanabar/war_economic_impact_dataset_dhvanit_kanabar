@@ -1,28 +1,27 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import MainLayout from './layouts/MainLayout.jsx';
+import Home from './pages/Home.jsx';
+import Conflicts from './pages/Conflicts.jsx';
+import Statistics from './pages/Statistics.jsx';
+import Analytics from './pages/Analytics.jsx';
+import Login from './pages/Login.jsx';
+import NotFound from './pages/NotFound.jsx';
 
 function App() {
   return (
-    <div style={{
-      fontFamily: 'system-ui, sans-serif',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '100vh',
-      backgroundColor: '#0f172a',
-      color: '#f8fafc',
-      margin: 0,
-      padding: '2rem',
-      textAlign: 'center'
-    }}>
-      <h1 style={{ fontSize: '3rem', marginBottom: '1rem', color: '#38bdf8' }}>
-        WarLens Frontend
-      </h1>
-      <p style={{ fontSize: '1.25rem', color: '#94a3b8' }}>
-        WarLens Frontend Initialized Successfully
-      </p>
-    </div>
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route index element={<Home />} />
+        <Route path="conflicts" element={<Conflicts />} />
+        <Route path="statistics" element={<Statistics />} />
+        <Route path="analytics" element={<Analytics />} />
+        <Route path="login" element={<Login />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   );
 }
 
 export default App;
+

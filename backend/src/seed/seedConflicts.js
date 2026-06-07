@@ -1,86 +1,90 @@
-require("dotenv").config();
 const mongoose = require("mongoose");
-const connectDB = require("../config/db");
+const fs = require("fs");
+const path = require("path");
+const dotenv = require("dotenv");
+
+// Load model
 const Conflict = require("../models/conflict.model");
-const rawDataset = require("../data/war_economic_impact_dataset.json");
 
-// Helper function to safely convert values
-const toNumber = (val, defaultValue = null) => {
-  if (val === undefined || val === null || val === "" || val === "null") {
-    return defaultValue;
-  }
-  const cleanedVal = String(val).replace(/,/g, "").trim();
-  const num = Number(cleanedVal);
-  return isNaN(num) ? defaultValue : num;
+// Configure dotenv
+dotenv.config();
+
+const parseNumber = (val) => {
+  if (val === undefined || val === null || val === "") return undefined;
+  const num = Number(val);
+  return isNaN(num) ? undefined : num;
 };
 
-const toBoolean = (val) => {
-  if (val === undefined || val === null) return false;
-  const str = String(val).trim().toLowerCase();
-  return str === "yes" || str === "true";
-};
-
-const transformData = (data) => {
-  return data.map((record) => {
-    return {
-      conflictName: record.Conflict_Name ? String(record.Conflict_Name).trim() : "",
-      conflictType: record.Conflict_Type ? String(record.Conflict_Type).trim() : "",
-      region: record.Region ? String(record.Region).trim() : "",
-      startYear: toNumber(record.Start_Year, 0),
-      endYear: toNumber(record.End_Year, 0),
-      status: record.Status ? String(record.Status).trim() : "",
-      primaryCountry: record.Primary_Country ? String(record.Primary_Country).trim() : "",
-      
-      preWarUnemployment: toNumber(record["Pre_War_Unemployment_%"]),
-      duringWarUnemployment: toNumber(record["During_War_Unemployment_%"]),
-      unemploymentSpike: toNumber(record.Unemployment_Spike_Percentage_Points),
-      mostAffectedSector: record.Most_Affected_Sector ? String(record.Most_Affected_Sector).trim() : null,
-      youthUnemploymentChange: toNumber(record["Youth_Unemployment_Change_%"]),
-      
-      preWarPovertyRate: toNumber(record["Pre_War_Poverty_Rate_%"]),
-      duringWarPovertyRate: toNumber(record["During_War_Poverty_Rate_%"]),
-      extremePovertyRate: toNumber(record["Extreme_Poverty_Rate_%"]),
-      foodInsecurityRate: toNumber(record["Food_Insecurity_Rate_%"]),
-      householdsFallenIntoPoverty: toNumber(record.Households_Fallen_Into_Poverty_Estimate),
-      
-      gdpChange: toNumber(record["GDP_Change_%"], 0), // GDP change is required, default to 0 if invalid
-      inflationRate: toNumber(record["Inflation_Rate_%"], 0),
-      currencyDevaluation: toNumber(record["Currency_Devaluation_%"]),
-      warCostUsd: toNumber(record.Cost_of_War_USD, 0),
-      reconstructionCostUsd: toNumber(record.Estimated_Reconstruction_Cost_USD, 0),
-      
-      informalEconomyPreWar: toNumber(record["Informal_Economy_Size_Pre_War_%"]),
-      informalEconomyDuringWar: toNumber(record["Informal_Economy_Size_During_War_%"]),
-      blackMarketActivityLevel: record.Black_Market_Activity_Level ? String(record.Black_Market_Activity_Level).trim() : null,
-      primaryBlackMarketGoods: record.Primary_Black_Market_Goods ? String(record.Primary_Black_Market_Goods).trim() : null,
-      currencyBlackMarketGap: toNumber(record["Currency_Black_Market_Rate_Gap_%"]),
-      warProfiteeringDocumented: toBoolean(record.War_Profiteering_Documented)
-    };
-  });
+const parseBoolean = (val) => {
+  if (val === "Yes" || val === "true" || val === true) return true;
+  if (val === "No" || val === "false" || val === false) return false;
+  return undefined;
 };
 
 const seedData = async () => {
   try {
-    // 1. Connect to MongoDB
-    await connectDB();
+    const mongoUri = process.env.MONGO_URI;
+    if (!mongoUri) {
+      throw new Error("MONGO_URI environment variable is missing in .env");
+    }
 
-    // 2. Clear existing Conflict records
+    console.log("Connecting to MongoDB...");
+    await mongoose.connect(mongoUri);
+    console.log("Connected to MongoDB successfully");
+
+    // Clear existing data
+    console.log("Clearing Conflict collection...");
     await Conflict.deleteMany({});
-    console.log("Existing conflict records deleted");
+    console.log("Conflict collection cleared");
 
-    // 3. Transform raw dataset
-    const transformed = transformData(rawDataset);
+    // Read and parse JSON
+    const dataPath = path.join(__dirname, "../data/war_economic_impact_dataset.json");
+    console.log(`Reading dataset from ${dataPath}...`);
+    const rawData = JSON.parse(fs.readFileSync(dataPath, "utf8"));
+    console.log(`Found ${rawData.length} items to seed`);
 
-    // 4. Insert transformed dataset
-    const result = await Conflict.insertMany(transformed);
-    console.log("Conflict records inserted successfully");
-    console.log(`Total records inserted: ${result.length}`);
+    // Map fields
+    const mappedConflicts = rawData.map((item) => ({
+      conflictName: item.Conflict_Name,
+      conflictType: item.Conflict_Type,
+      region: item.Region,
+      startYear: parseNumber(item.Start_Year),
+      endYear: parseNumber(item.End_Year),
+      status: item.Status,
+      primaryCountry: item.Primary_Country,
+      preWarUnemployment: parseNumber(item["Pre_War_Unemployment_%"]),
+      duringWarUnemployment: parseNumber(item["During_War_Unemployment_%"]),
+      unemploymentSpike: parseNumber(item.Unemployment_Spike_Percentage_Points),
+      mostAffectedSector: item.Most_Affected_Sector,
+      youthUnemploymentChange: parseNumber(item["Youth_Unemployment_Change_%"]),
+      preWarPovertyRate: parseNumber(item["Pre_War_Poverty_Rate_%"]),
+      duringWarPovertyRate: parseNumber(item["During_War_Poverty_Rate_%"]),
+      extremePovertyRate: parseNumber(item["Extreme_Poverty_Rate_%"]),
+      foodInsecurityRate: parseNumber(item["Food_Insecurity_Rate_%"]),
+      householdsFallenIntoPoverty: parseNumber(item.Households_Fallen_Into_Poverty_Estimate),
+      gdpChange: parseNumber(item["GDP_Change_%"]),
+      inflationRate: parseNumber(item["Inflation_Rate_%"]),
+      currencyDevaluation: parseNumber(item["Currency_Devaluation_%"]),
+      warCostUsd: parseNumber(item.Cost_of_War_USD),
+      reconstructionCostUsd: parseNumber(item.Estimated_Reconstruction_Cost_USD),
+      informalEconomyPreWar: parseNumber(item["Informal_Economy_Size_Pre_War_%"]),
+      informalEconomyDuringWar: parseNumber(item["Informal_Economy_Size_During_War_%"]),
+      blackMarketActivityLevel: item.Black_Market_Activity_Level,
+      primaryBlackMarketGoods: item.Primary_Black_Market_Goods,
+      currencyBlackMarketGap: parseNumber(item["Currency_Black_Market_Rate_Gap_%"]),
+      warProfiteeringDocumented: parseBoolean(item.War_Profiteering_Documented),
+    }));
 
-    // 5. Close connection and exit
-    await mongoose.connection.close();
+    // Seed
+    console.log("Seeding Conflicts into MongoDB...");
+    const result = await Conflict.insertMany(mappedConflicts);
+    console.log(`Seeded ${result.length} Conflicts successfully!`);
+
+    mongoose.connection.close();
+    console.log("Database connection closed");
     process.exit(0);
   } catch (error) {
-    console.error(`Error during seeding: ${error.message}`);
+    console.error("Seeding failed with error:", error);
     process.exit(1);
   }
 };

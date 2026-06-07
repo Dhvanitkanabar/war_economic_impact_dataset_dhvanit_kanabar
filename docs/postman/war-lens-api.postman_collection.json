@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "8b9e6f3b-e0f1-432a-bc91-2a3b04c8f5d0",
     "name": "WarLens API Postman Collection",
-    "description": "Minimal Postman collection aligned with the deployed API route scope.",
+    "description": "Complete Postman collection aligned with the deployed API route scope.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -300,6 +300,43 @@
           }
         },
         {
+          "name": "Replace Conflict",
+          "request": {
+            "description": "Replace all fields of an existing conflict (admin only).",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"conflictName\": \"Gulf War (Replaced)\",\n  \"conflictType\": \"Interstate War\",\n  \"region\": \"Middle East\",\n  \"startYear\": 1990,\n  \"endYear\": 1991,\n  \"status\": \"Resolved\",\n  \"primaryCountry\": \"Iraq\",\n  \"gdpChange\": -16.2,\n  \"inflationRate\": 26.5,\n  \"warCostUsd\": 62000000000,\n  \"reconstructionCostUsd\": 85000000000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/conflicts/{{conflictId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "conflicts",
+                "{{conflictId}}"
+              ]
+            }
+          }
+        },
+        {
           "name": "Update Conflict",
           "request": {
             "description": "Update fields of an existing conflict (admin only).",
@@ -394,7 +431,102 @@
       ]
     },
     {
-      "name": "4. ANALYTICS",
+      "name": "4. STATISTICS",
+      "item": [
+        {
+          "name": "Stats Overview",
+          "request": {
+            "description": "Get statistics overview.",
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/conflicts/stats/overview",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "conflicts",
+                "stats",
+                "overview"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Highest Inflation",
+          "request": {
+            "description": "Get highest inflation conflict.",
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/conflicts/stats/highest-inflation",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "conflicts",
+                "stats",
+                "highest-inflation"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Lowest GDP",
+          "request": {
+            "description": "Get lowest GDP conflict.",
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/conflicts/stats/lowest-gdp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "conflicts",
+                "stats",
+                "lowest-gdp"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Highest War Cost",
+          "request": {
+            "description": "Get highest war cost conflict.",
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/conflicts/stats/highest-war-cost",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "conflicts",
+                "stats",
+                "highest-war-cost"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Highest Reconstruction Cost",
+          "request": {
+            "description": "Get highest reconstruction cost conflict.",
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/conflicts/stats/highest-reconstruction-cost",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "conflicts",
+                "stats",
+                "highest-reconstruction-cost"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. ANALYTICS",
       "item": [
         {
           "name": "Region Distribution",
@@ -431,11 +563,65 @@
               ]
             }
           }
+        },
+        {
+          "name": "Type Distribution",
+          "request": {
+            "description": "Get conflict counts grouped by type.",
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/conflicts/analytics/type-distribution",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "conflicts",
+                "analytics",
+                "type-distribution"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Inflation By Region",
+          "request": {
+            "description": "Get inflation statistics aggregated by region.",
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/conflicts/analytics/inflation-by-region",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "conflicts",
+                "analytics",
+                "inflation-by-region"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Sector Impact",
+          "request": {
+            "description": "Get average economic indicators grouped by most affected sector.",
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/conflicts/analytics/sector-impact",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "conflicts",
+                "analytics",
+                "sector-impact"
+              ]
+            }
+          }
         }
       ]
     },
     {
-      "name": "5. HEALTH",
+      "name": "6. HEALTH",
       "item": [
         {
           "name": "API Health Check",
