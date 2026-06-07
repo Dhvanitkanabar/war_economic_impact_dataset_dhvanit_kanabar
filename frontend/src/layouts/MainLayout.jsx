@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
+import Footer from '../components/Footer.jsx';
 
 const MainLayout = () => {
   return (
@@ -12,12 +13,7 @@ const MainLayout = () => {
         <Outlet />
       </main>
 
-      {/* Footer Placeholder */}
-      <footer className="w-full border-t border-neutral-800 bg-surface py-4 px-6 mt-auto">
-        <div className="max-w-7xl mx-auto text-center">
-          <p className="text-sm text-neutral-500">Footer Placeholder &copy; 2026 WarLens</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
