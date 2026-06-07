@@ -48,10 +48,14 @@ Inside the `frontend` directory, you can run the following commands:
 - `npm run build`: Builds the production bundle of the application.
 - `npm run preview`: Previews the production build locally.
 
+## Environment Variables
+
+The following environment variables are required for the application:
+- `VITE_API_BASE_URL`: The base URL for the backend API (e.g., in `.env`).
+
 ## Current Phase Status
 - ✅ Frontend Initialization
 - ✅ Routing Foundation
 - ⬜ Redux Setup
 - ⬜ API Integration
 - ⬜ Dashboard Development
-
