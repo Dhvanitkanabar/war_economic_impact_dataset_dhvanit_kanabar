@@ -7,68 +7,69 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
-          950: '#172554',
+        // Amber-red war theme accent
+        accent: {
+          50:  '#fff8f0',
+          100: '#feecda',
+          200: '#fcd4a8',
+          300: '#f9b56d',
+          400: '#f78c35',
+          500: '#f56e10',  // primary orange
+          600: '#e55507',
+          700: '#c03e08',
+          800: '#973211',
+          900: '#7b2b13',
+          950: '#431206',
         },
-        secondary: {
-          50: '#f5f3ff',
-          100: '#ede9fe',
-          200: '#ddd6fe',
-          300: '#c4b5fd',
-          400: '#a78bfa',
-          500: '#8b5cf6',
-          600: '#7c3aed',
-          700: '#6d28d9',
-          800: '#5b21b6',
-          900: '#4c1d95',
-          950: '#2e1065',
+        crimson: {
+          400: '#f87171',
+          500: '#ef4444',
+          600: '#dc2626',
         },
-        success: {
-          DEFAULT: '#10b981',
-          light: '#34d399',
-          dark: '#059669',
+        // Dark slate neutrals
+        ink: {
+          50:  '#f6f7f9',
+          100: '#eceef2',
+          200: '#d5dae3',
+          300: '#b0bac9',
+          400: '#8594a8',
+          500: '#677689',
+          600: '#536071',
+          700: '#444f5e',
+          800: '#3b4351',
+          900: '#343b47',
+          950: '#1e2430',
         },
-        warning: {
-          DEFAULT: '#f59e0b',
-          light: '#fbbf24',
-          dark: '#d97706',
-        },
-        error: {
-          DEFAULT: '#ef4444',
-          light: '#f87171',
-          dark: '#dc2626',
-        },
-        neutral: {
-          50: '#fafafa',
-          100: '#f5f5f5',
-          200: '#e5e5e5',
-          300: '#d4d4d4',
-          400: '#a3a3a3',
-          500: '#737373',
-          600: '#525252',
-          700: '#404040',
-          800: '#262626',
-          900: '#171717',
-          950: '#0a0a0a',
-        },
-        background: '#0a0a0a',
-        surface: '#171717',
+        dark: '#0b0e14',
+        card: '#111720',
+        border: '#1e2736',
+        muted: '#8594a8',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      },
+      boxShadow: {
+        'glow-accent': '0 0 40px -8px rgba(245, 110, 16, 0.4)',
+        'glow-crimson': '0 0 40px -8px rgba(239, 68, 68, 0.4)',
+        'card': '0 4px 24px rgba(0,0,0,0.5)',
+      },
+      animation: {
+        'fade-up': 'fadeUp 0.6s ease both',
+        'pulse-slow': 'pulse 3s ease-in-out infinite',
+        'scanline': 'scanline 4s linear infinite',
+      },
+      keyframes: {
+        fadeUp: {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        scanline: {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(100vh)' },
+        },
       },
     },
   },
   plugins: [],
 }
-

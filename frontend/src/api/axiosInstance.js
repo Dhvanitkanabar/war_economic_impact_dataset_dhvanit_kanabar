@@ -1,13 +1,19 @@
 import axios from 'axios';
 
+// Fallback to the production URL if the env variable is missing
+const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  'https://war-economic-impact-dataset-dhvanit.onrender.com/api';
+
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
+  timeout: 15000, // 15s — Render cold-start can be slow
 });
 
-// Request interceptor
+// ── Request interceptor: attach token ──────────────────────────────────────
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -16,17 +22,21 @@ axiosInstance.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Response interceptor
+// ── Response interceptor: surface useful errors ────────────────────────────
 axiosInstance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   (error) => {
+    // Log to console for easier debugging
+    if (import.meta.env.DEV) {
+      console.error(
+        `[API Error] ${error.config?.method?.toUpperCase()} ${error.config?.url}`,
+        error.response?.status,
+        error.response?.data
+      );
+    }
     return Promise.reject(error);
   }
 );

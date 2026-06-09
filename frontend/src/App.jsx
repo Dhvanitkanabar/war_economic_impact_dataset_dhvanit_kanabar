@@ -8,6 +8,7 @@ import Analytics from './pages/Analytics.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import NotFound from './pages/NotFound.jsx';
+import ApiTest from './pages/ApiTest.jsx';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="analytics" element={<Analytics />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="api-test" element={<ApiTest />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

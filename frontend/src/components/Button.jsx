@@ -8,33 +8,60 @@ const Button = ({
   disabled = false,
   onClick,
   className = '',
+  icon,
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
-  
+  const base = `
+    inline-flex items-center justify-center gap-2 font-semibold
+    transition-all duration-200 select-none
+    disabled:opacity-40 disabled:cursor-not-allowed
+    focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 focus-visible:ring-offset-dark
+  `;
+
   const variants = {
-    primary: 'bg-primary-600 text-white hover:bg-primary-500 focus:ring-primary-500',
-    secondary: 'bg-secondary-600 text-white hover:bg-secondary-500 focus:ring-secondary-500',
-    danger: 'bg-error text-white hover:bg-error-light focus:ring-error',
-    ghost: 'bg-transparent text-neutral-300 hover:bg-surface hover:text-white focus:ring-neutral-500',
+    primary: `
+      clip-corner-sm bg-accent-500 text-white
+      hover:bg-accent-400 hover:shadow-glow-accent
+      active:scale-95
+    `,
+    secondary: `
+      bg-card border border-border text-ink-200
+      hover:border-accent-600 hover:text-white hover:bg-ink-900
+      active:scale-95
+    `,
+    ghost: `
+      bg-transparent text-ink-400
+      hover:text-white hover:bg-ink-900/60
+      active:scale-95
+    `,
+    danger: `
+      clip-corner-sm bg-crimson-600 text-white
+      hover:bg-crimson-500 hover:shadow-glow-crimson
+      active:scale-95
+    `,
+    outline: `
+      border border-accent-600 text-accent-400 bg-transparent
+      hover:bg-accent-600/10 hover:text-accent-300
+      active:scale-95
+    `,
   };
 
   const sizes = {
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-4 py-2 text-base',
-    lg: 'px-6 py-3 text-lg',
+    sm: 'px-3 py-1.5 text-xs',
+    md: 'px-5 py-2.5 text-sm',
+    lg: 'px-7 py-3.5 text-base',
+    xl: 'px-9 py-4 text-base',
   };
-
-  const combinedClassName = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
 
   return (
     <button
       type={type}
-      className={combinedClassName}
+      className={`${base} ${variants[variant]} ${sizes[size]} ${className}`}
       disabled={disabled}
       onClick={onClick}
       {...props}
     >
+      {icon && <span className="flex-shrink-0">{icon}</span>}
       {children}
     </button>
   );
