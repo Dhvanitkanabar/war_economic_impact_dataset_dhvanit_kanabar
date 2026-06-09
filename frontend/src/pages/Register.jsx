@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../services/authService';
 import { setCredentials, setLoading, setError, clearError } from '../features/auth/authSlice';
@@ -13,7 +13,10 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoading, error } = useSelector((state) => state.auth);
+  const { isLoading, error, isAuthenticated } = useSelector((state) => state.auth);
+
+  // Already logged in
+  if (isAuthenticated) return <Navigate to="/dashboard" replace />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,7 +36,7 @@ const Register = () => {
       const data = await registerUser({ name, email, password });
       if (data.token) localStorage.setItem('token', data.token);
       dispatch(setCredentials({ user: data.user, token: data.token }));
-      navigate('/');
+      navigate('/dashboard', { replace: true });
     } catch (err) {
       dispatch(setError(err.response?.data?.message || err.message || 'Registration failed'));
     } finally {
