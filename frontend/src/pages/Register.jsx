@@ -43,18 +43,18 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-neutral-100">
+    <div className="flex-1 flex flex-col items-center justify-center p-6 w-full py-12">
       <div className="w-full max-w-md">
         <Card 
           title="Create Your WarLens Account" 
           subtitle="Join us to explore the economic impact of conflicts worldwide."
         >
           {error && (
-            <div className="mb-4 p-3 bg-red-500/10 border border-red-500/50 rounded text-red-500 text-sm text-center">
+            <div className="mb-6 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm text-center">
               {error}
             </div>
           )}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <Input
               label="Name"
               name="name"
@@ -91,16 +91,16 @@ const Register = () => {
               placeholder="Confirm your password"
               required
             />
-            <div className="pt-2">
+            <div className="pt-4">
               <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
                 {isLoading ? 'Creating account...' : 'Register'}
               </Button>
             </div>
           </form>
           
-          <div className="mt-6 text-center text-sm text-neutral-400">
+          <div className="mt-8 text-center text-sm text-neutral-400">
             Already have an account?{' '}
-            <Link to="/login" className="text-primary-400 hover:text-primary-300 transition-colors">
+            <Link to="/login" className="text-primary-400 hover:text-white transition-colors font-medium">
               Login here
             </Link>
           </div>

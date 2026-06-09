@@ -20,8 +20,6 @@ const Login = () => {
     dispatch(setLoading(true));
     try {
       const data = await loginUser({ email, password });
-      // Depending on the API response structure, adjust this if needed
-      // Assuming it returns { user, token }
       const token = data.token;
       if (token) {
         localStorage.setItem('token', token);
@@ -29,7 +27,6 @@ const Login = () => {
       dispatch(setCredentials({ user: data.user, token: data.token }));
       navigate('/');
     } catch (err) {
-      // Assuming error message is in err.response.data.message or err.message
       const errorMessage = err.response?.data?.message || err.message || 'Login failed';
       dispatch(setError(errorMessage));
     } finally {
@@ -38,18 +35,18 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-neutral-100">
+    <div className="flex-1 flex flex-col items-center justify-center p-6 w-full">
       <div className="w-full max-w-md">
         <Card 
           title="Login to WarLens" 
           subtitle="Welcome back! Please sign in to your account."
         >
           {error && (
-            <div className="mb-4 p-3 bg-red-500/10 border border-red-500/50 rounded text-red-500 text-sm text-center">
+            <div className="mb-6 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm text-center">
               {error}
             </div>
           )}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <Input
               label="Email"
               name="email"
@@ -68,16 +65,16 @@ const Login = () => {
               placeholder="Enter your password"
               required
             />
-            <div className="pt-2">
+            <div className="pt-4">
               <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
                 {isLoading ? 'Logging in...' : 'Login'}
               </Button>
             </div>
           </form>
           
-          <div className="mt-6 text-center text-sm text-neutral-400">
+          <div className="mt-8 text-center text-sm text-neutral-400">
             Don't have an account?{' '}
-            <Link to="/register" className="text-primary-400 hover:text-primary-300 transition-colors">
+            <Link to="/register" className="text-primary-400 hover:text-white transition-colors font-medium">
               Register here
             </Link>
           </div>
