@@ -5,24 +5,28 @@ const Card = ({
   title,
   subtitle,
   className = '',
-  headerAction
+  headerAction,
+  accent = false,
+  noPadding = false,
 }) => {
   return (
-    <div className={`bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl hover:border-white/20 transition-all duration-300 overflow-hidden ${className}`}>
+    <div className={`bg-card border border-border rounded overflow-hidden shadow-card transition-all duration-300 hover:border-ink-700 ${accent ? 'border-l-2 border-l-accent-500' : ''} ${className}`}>
       {(title || subtitle || headerAction) && (
-        <div className="px-6 py-5 border-b border-white/5 flex justify-between items-center gap-4 bg-white/[0.02]">
-          <div>
-            {title && <h3 className="text-xl font-display font-semibold text-white tracking-wide">{title}</h3>}
-            {subtitle && <p className="text-sm text-neutral-400 mt-1.5">{subtitle}</p>}
+        <div className="flex items-start justify-between gap-4 px-6 py-4 border-b border-border bg-ink-950/40">
+          <div className="flex-1 min-w-0">
+            {title && (
+              <h3 className="text-sm font-semibold text-ink-100 uppercase tracking-wider">{title}</h3>
+            )}
+            {subtitle && (
+              <p className="text-xs text-muted mt-1 leading-relaxed">{subtitle}</p>
+            )}
           </div>
           {headerAction && (
-            <div className="flex-shrink-0">
-              {headerAction}
-            </div>
+            <div className="flex-shrink-0">{headerAction}</div>
           )}
         </div>
       )}
-      <div className="p-6 text-neutral-300">
+      <div className={noPadding ? '' : 'p-6'}>
         {children}
       </div>
     </div>

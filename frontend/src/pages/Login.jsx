@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../services/authService';
 import { setCredentials, setLoading, setError, clearError } from '../features/auth/authSlice';
-import Card from '../components/Card';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
@@ -20,65 +19,111 @@ const Login = () => {
     dispatch(setLoading(true));
     try {
       const data = await loginUser({ email, password });
-      const token = data.token;
-      if (token) {
-        localStorage.setItem('token', token);
-      }
+      if (data.token) localStorage.setItem('token', data.token);
       dispatch(setCredentials({ user: data.user, token: data.token }));
       navigate('/');
     } catch (err) {
-      const errorMessage = err.response?.data?.message || err.message || 'Login failed';
-      dispatch(setError(errorMessage));
+      dispatch(setError(err.response?.data?.message || err.message || 'Login failed'));
     } finally {
       dispatch(setLoading(false));
     }
   };
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center p-6 w-full">
+    <div className="flex-1 flex items-center justify-center p-6 py-16">
       <div className="w-full max-w-md">
-        <Card 
-          title="Login to WarLens" 
-          subtitle="Welcome back! Please sign in to your account."
-        >
-          {error && (
-            <div className="mb-6 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm text-center">
-              {error}
-            </div>
-          )}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <Input
-              label="Email"
-              name="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              required
-            />
-            <Input
-              label="Password"
-              name="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              required
-            />
-            <div className="pt-4">
-              <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
-                {isLoading ? 'Logging in...' : 'Login'}
-              </Button>
-            </div>
-          </form>
-          
-          <div className="mt-8 text-center text-sm text-neutral-400">
-            Don't have an account?{' '}
-            <Link to="/register" className="text-primary-400 hover:text-white transition-colors font-medium">
-              Register here
-            </Link>
+
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center gap-2 text-xs font-mono text-accent-400 uppercase tracking-widest mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent-500" />
+            Secure Access
           </div>
-        </Card>
+          <h1 className="text-3xl font-black text-ink-50 tracking-tight">Sign in to WarLens</h1>
+          <p className="text-muted text-sm mt-2">Access real-time economic conflict analysis</p>
+        </div>
+
+        {/* Card */}
+        <div className="bg-card border border-border rounded shadow-card overflow-hidden">
+          {/* Accent top bar */}
+          <div className="h-0.5 bg-gradient-to-r from-accent-600 via-accent-400 to-transparent" />
+
+          <div className="p-6 md:p-8">
+            {error && (
+              <div className="mb-6 p-3 rounded border border-crimson-600/30 bg-crimson-600/10 flex items-start gap-2.5 text-sm text-crimson-400">
+                <svg className="flex-shrink-0 mt-0.5" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                {error}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <Input
+                label="Email address"
+                name="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                required
+                prefix={
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                  </svg>
+                }
+              />
+              <Input
+                label="Password"
+                name="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                required
+                prefix={
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2"/><circle cx="12" cy="16" r="1"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                }
+              />
+
+              <div className="pt-2">
+                <Button type="submit" variant="primary" size="lg" disabled={isLoading} className="w-full">
+                  {isLoading ? (
+                    <span className="flex items-center gap-2">
+                      <svg className="animate-spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+                      </svg>
+                      Authenticating...
+                    </span>
+                  ) : 'Sign In'}
+                </Button>
+              </div>
+            </form>
+          </div>
+
+          <div className="px-6 md:px-8 py-4 bg-ink-950/40 border-t border-border text-center">
+            <p className="text-xs text-muted">
+              Don't have an account?{' '}
+              <Link to="/register" className="text-accent-400 hover:text-accent-300 font-medium transition-colors">
+                Create one free
+              </Link>
+            </p>
+          </div>
+        </div>
+
+        {/* Trust signals */}
+        <div className="mt-6 flex items-center justify-center gap-6">
+          {['256-bit encrypted', 'No spam, ever', 'Cancel anytime'].map(label => (
+            <div key={label} className="flex items-center gap-1.5 text-xs text-ink-600">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-accent-600">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              {label}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
