@@ -122,11 +122,24 @@ body.light-theme .sticky.top-0 {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
 }
 
+body.light-theme header .max-w-7xl.h-16 {
+  height: 3.25rem !important; /* Reduced height in light mode */
+  max-width: 1024px !important; /* Reduced width in light mode */
+}
+
+/* Modern Pill-Shaped Navbar Items & Buttons */
 body.light-theme nav a,
-body.light-theme nav button {
-  color: #475569 !important;
+body.light-theme nav button,
+body.light-theme nav [class*="clip-corner"] {
+  clip-path: none !important;
+  border-radius: 9999px !important; /* Fully rounded pill shape */
   outline: none !important;
   box-shadow: none !important;
+}
+
+body.light-theme nav a {
+  color: #475569 !important;
+  padding: 0.5rem 1.25rem !important;
 }
 
 body.light-theme nav a:hover,
@@ -138,6 +151,21 @@ body.light-theme nav a.active {
   color: #f97316 !important;
   background-color: rgba(249, 115, 22, 0.08) !important;
   border-color: rgba(249, 115, 22, 0.15) !important;
+}
+
+/* Action button specifically (Get Started) */
+body.light-theme nav a[href*="register"],
+body.light-theme nav a[to="/register"],
+body.light-theme nav a.login-btn {
+  background-color: #f97316 !important;
+  color: #ffffff !important;
+  padding: 0.5rem 1.5rem !important;
+}
+
+body.light-theme nav a[href*="register"]:hover,
+body.light-theme nav a[to="/register"]:hover,
+body.light-theme nav a.login-btn:hover {
+  background-color: #ea580c !important;
 }
 
 /* Hero Section */
