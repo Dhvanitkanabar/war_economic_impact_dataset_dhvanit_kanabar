@@ -72,3 +72,61 @@
     clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
   }
 }
+
+/* Light Theme overrides to maintain the design system in light mode */
+body.light-theme {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+body.light-theme .bg-card, 
+body.light-theme .bg-ink-950,
+body.light-theme .bg-ink-900\/50,
+body.light-theme .bg-ink-900\/60,
+body.light-theme .bg-ink-950\/40,
+body.light-theme .glass {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+body.light-theme h1,
+body.light-theme h2,
+body.light-theme h3,
+body.light-theme h4,
+body.light-theme h5,
+body.light-theme.text-white,
+body.light-theme .text-ink-50,
+body.light-theme .text-ink-100 {
+  color: #0f172a !important;
+}
+
+body.light-theme .text-ink-300,
+body.light-theme .text-muted,
+body.light-theme .text-ink-400 {
+  color: #475569 !important;
+}
+
+body.light-theme .border-border,
+body.light-theme .border-ink-800,
+body.light-theme border-ink-900 {
+  border-color: #cbd5e1 !important;
+}
+
+body.light-theme input,
+body.light-theme select,
+body.light-theme textarea {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+body.light-theme nav {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+body.light-theme nav .text-white {
+  color: #0f172a !important;
+}
+

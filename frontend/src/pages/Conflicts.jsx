@@ -157,10 +157,19 @@ const Conflicts = () => {
   const [totalPages,  setTotalPages]  = useState(1);
   const [totalCount,  setTotalCount]  = useState(0);
 
-  // Search state
-  const [searchInput,   setSearchInput]   = useState('');
-  const [searchQuery,   setSearchQuery]   = useState('');  // committed query
-  const [isSearchMode,  setIsSearchMode]  = useState(false);
+  // Search & Filtering State (initialised from sessionStorage if enabled)
+  const [searchInput, setSearchInput] = useState(() => {
+    const preserve = sessionStorage.getItem('preserveFilters') || 'enabled';
+    return preserve === 'enabled' ? sessionStorage.getItem('conflictSearchInput') || '' : '';
+  });
+  const [searchQuery, setSearchQuery] = useState(() => {
+    const preserve = sessionStorage.getItem('preserveFilters') || 'enabled';
+    return preserve === 'enabled' ? sessionStorage.getItem('conflictSearchQuery') || '' : '';
+  });
+  const [isSearchMode, setIsSearchMode] = useState(() => {
+    const preserve = sessionStorage.getItem('preserveFilters') || 'enabled';
+    return preserve === 'enabled' && sessionStorage.getItem('conflictSearchQuery') ? true : false;
+  });
 
   // ── Fetch normal list ────────────────────────────────────────────────────────
   const fetchConflicts = useCallback(async (p = 1) => {
@@ -206,6 +215,22 @@ const Conflicts = () => {
 
   // Run search / revert whenever searchQuery changes
   useEffect(() => {
+    const preserve = sessionStorage.getItem('preserveFilters') || 'enabled';
+    if (preserve === 'enabled') {
+      sessionStorage.setItem('conflictSearchInput', searchInput);
+    } else {
+      sessionStorage.removeItem('conflictSearchInput');
+    }
+  }, [searchInput]);
+
+  useEffect(() => {
+    const preserve = sessionStorage.getItem('preserveFilters') || 'enabled';
+    if (preserve === 'enabled') {
+      sessionStorage.setItem('conflictSearchQuery', searchQuery);
+    } else {
+      sessionStorage.removeItem('conflictSearchQuery');
+    }
+
     if (searchQuery.trim()) {
       setIsSearchMode(true);
       fetchSearch(searchQuery.trim());
