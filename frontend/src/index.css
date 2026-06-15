@@ -5,11 +5,15 @@
 @tailwind utilities;
 
 @layer base {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     box-sizing: border-box;
   }
 
-  html, body {
+  html,
+  body {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -28,12 +32,29 @@
   }
 
   /* Scrollbar */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: #111720; }
-  ::-webkit-scrollbar-thumb { background: #1e2736; border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: #f56e10; }
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
 
-  h1, h2, h3, h4, h5, h6 {
+  ::-webkit-scrollbar-track {
+    background: #111720;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #1e2736;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #f56e10;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Inter', system-ui, sans-serif;
     font-weight: 700;
     color: #f6f7f9;
@@ -74,12 +95,36 @@
 }
 
 /* Smooth Transitions for a Premium Feel */
-body, header, nav, footer, table, tr, th, td, input, select, textarea, button, a, span, p, h1, h2, h3, h4, h5, h6, .bg-card, .border-border {
+body,
+header,
+nav,
+footer,
+table,
+tr,
+th,
+td,
+input,
+select,
+textarea,
+button,
+a,
+span,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.bg-card,
+.border-border {
   transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1), border-color 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Light Theme Overrides */
-body.light-theme {
+body.light-theme,
+body.light-theme .bg-dark,
+body.light-theme .min-h-screen.bg-dark {
   background-color: #f8fafc !important;
   background-image: none !important;
   color: #475569 !important;
@@ -93,6 +138,7 @@ body.light-theme .fixed.top-0.left-1\/2.-translate-x-1\/2 {
 
 /* Base Card Overrides (Rounded-2xl, soft border, light shadow) */
 body.light-theme .bg-card,
+body.light-theme .bg-card\/80,
 body.light-theme .bg-ink-950,
 body.light-theme .bg-ink-900\/50,
 body.light-theme .bg-ink-900\/60,
@@ -104,7 +150,8 @@ body.light-theme [class*="rounded"] {
   background-color: #ffffff !important;
   background-image: none !important;
   border-color: #e2e8f0 !important;
-  border-radius: 16px !important; /* rounded-2xl */
+  border-radius: 16px !important;
+  /* rounded-2xl */
   padding: 24px !important;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
   color: #475569 !important;
@@ -112,17 +159,34 @@ body.light-theme [class*="rounded"] {
 
 /* Header and Navbar */
 body.light-theme header,
-body.light-theme nav {
+body.light-theme nav,
+body.light-theme .sticky.top-0 {
   background-color: #ffffff !important;
   border-color: #e2e8f0 !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
 }
 
+body.light-theme header .max-w-7xl.h-16 {
+  height: 3.25rem !important;
+  /* Reduced height in light mode */
+  max-width: 100px !important;
+  /* Reduced width in light mode */
+}
+
+/* Modern Pill-Shaped Navbar Items & Buttons */
 body.light-theme nav a,
-body.light-theme nav button {
-  color: #475569 !important;
+body.light-theme nav button,
+body.light-theme nav [class*="clip-corner"] {
+  clip-path: none !important;
+  border-radius: 9999px !important;
+  /* Fully rounded pill shape */
   outline: none !important;
   box-shadow: none !important;
+}
+
+body.light-theme nav a {
+  color: #475569 !important;
+  padding: 0.5rem 1.25rem !important;
 }
 
 body.light-theme nav a:hover,
@@ -134,6 +198,21 @@ body.light-theme nav a.active {
   color: #f97316 !important;
   background-color: rgba(249, 115, 22, 0.08) !important;
   border-color: rgba(249, 115, 22, 0.15) !important;
+}
+
+/* Action button specifically (Get Started) */
+body.light-theme nav a[href*="register"],
+body.light-theme nav a[to="/register"],
+body.light-theme nav a.login-btn {
+  background-color: #f97316 !important;
+  color: #ffffff !important;
+  padding: 0.5rem 1.5rem !important;
+}
+
+body.light-theme nav a[href*="register"]:hover,
+body.light-theme nav a[to="/register"]:hover,
+body.light-theme nav a.login-btn:hover {
+  background-color: #ea580c !important;
 }
 
 /* Hero Section */
@@ -164,23 +243,56 @@ body.light-theme .text-ink-100 {
   color: #0f172a !important;
 }
 
+body.light-theme h1 *,
+body.light-theme h2 *,
+body.light-theme h3 *,
+body.light-theme h4 *,
+body.light-theme h5 *,
+body.light-theme h6 * {
+  color: inherit !important;
+}
+
 body.light-theme .text-white {
   color: #475569 !important;
 }
 
-body.light-theme .text-ink-200,
-body.light-theme .text-ink-300,
-body.light-theme .text-ink-400,
+/* Force all neutral text classes (ink, slate, gray, neutral, zinc) to readable body text color in light theme */
+body.light-theme [class*="text-ink-"],
+body.light-theme [class*="text-slate-"],
+body.light-theme [class*="text-gray-"],
+body.light-theme [class*="text-neutral-"],
+body.light-theme [class*="text-zinc-"],
 body.light-theme p,
 body.light-theme span,
-body.light-theme label {
-  color: #475569 !important;
+body.light-theme label,
+body.light-theme div,
+body.light-theme li,
+body.light-theme td {
+  color: #475569;
+  /* Fallback color, not using !important to allow headers to override */
+}
+
+/* Ensure strong ink headers and elements override body text */
+body.light-theme .text-ink-50,
+body.light-theme .text-ink-100,
+body.light-theme .text-ink-50 *,
+body.light-theme .text-ink-100 * {
+  color: #0f172a !important;
 }
 
 body.light-theme .text-muted,
 body.light-theme .text-ink-500,
 body.light-theme .text-ink-600 {
   color: #64748b !important;
+}
+
+/* Crimson status badges color adjustment for contrast */
+body.light-theme .text-crimson-400 {
+  color: #dc2626 !important;
+}
+
+body.light-theme .bg-crimson-600\/15 {
+  background-color: rgba(220, 38, 38, 0.1) !important;
 }
 
 /* Keep Button and Badge text white on accent background */
@@ -198,8 +310,18 @@ body.light-theme button *,
 body.light-theme a.bg-accent-500,
 body.light-theme a.bg-accent-500 *,
 body.light-theme .bg-accent-500,
-body.light-theme .bg-accent-500 * {
+body.light-theme .bg-accent-500 *,
+body.light-theme .bg-accent-600,
+body.light-theme .bg-accent-600 * {
   color: #ffffff !important;
+}
+
+body.light-theme .hover\:bg-accent-400:hover,
+body.light-theme .hover\:bg-accent-500:hover,
+body.light-theme button[class*="bg-accent-"]:hover,
+body.light-theme a[class*="bg-accent-"]:hover,
+body.light-theme .bg-accent-500:hover {
+  background-color: #ea580c !important;
 }
 
 body.light-theme .text-accent-400,
@@ -303,6 +425,3 @@ body.light-theme footer .text-gradient-accent {
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
 }
-
-
-
