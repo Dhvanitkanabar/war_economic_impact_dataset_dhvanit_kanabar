@@ -5,11 +5,15 @@
 @tailwind utilities;
 
 @layer base {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     box-sizing: border-box;
   }
 
-  html, body {
+  html,
+  body {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -28,12 +32,29 @@
   }
 
   /* Scrollbar */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: #111720; }
-  ::-webkit-scrollbar-thumb { background: #1e2736; border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: #f56e10; }
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
 
-  h1, h2, h3, h4, h5, h6 {
+  ::-webkit-scrollbar-track {
+    background: #111720;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #1e2736;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #f56e10;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Inter', system-ui, sans-serif;
     font-weight: 700;
     color: #f6f7f9;
@@ -74,7 +95,29 @@
 }
 
 /* Smooth Transitions for a Premium Feel */
-body, header, nav, footer, table, tr, th, td, input, select, textarea, button, a, span, p, h1, h2, h3, h4, h5, h6, .bg-card, .border-border {
+body,
+header,
+nav,
+footer,
+table,
+tr,
+th,
+td,
+input,
+select,
+textarea,
+button,
+a,
+span,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.bg-card,
+.border-border {
   transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1), border-color 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -107,7 +150,8 @@ body.light-theme [class*="rounded"] {
   background-color: #ffffff !important;
   background-image: none !important;
   border-color: #e2e8f0 !important;
-  border-radius: 16px !important; /* rounded-2xl */
+  border-radius: 16px !important;
+  /* rounded-2xl */
   padding: 24px !important;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
   color: #475569 !important;
@@ -123,8 +167,10 @@ body.light-theme .sticky.top-0 {
 }
 
 body.light-theme header .max-w-7xl.h-16 {
-  height: 3.25rem !important; /* Reduced height in light mode */
-  max-width: 1024px !important; /* Reduced width in light mode */
+  height: 3.25rem !important;
+  /* Reduced height in light mode */
+  max-width: 100px !important;
+  /* Reduced width in light mode */
 }
 
 /* Modern Pill-Shaped Navbar Items & Buttons */
@@ -132,7 +178,8 @@ body.light-theme nav a,
 body.light-theme nav button,
 body.light-theme nav [class*="clip-corner"] {
   clip-path: none !important;
-  border-radius: 9999px !important; /* Fully rounded pill shape */
+  border-radius: 9999px !important;
+  /* Fully rounded pill shape */
   outline: none !important;
   box-shadow: none !important;
 }
@@ -221,7 +268,8 @@ body.light-theme label,
 body.light-theme div,
 body.light-theme li,
 body.light-theme td {
-  color: #475569; /* Fallback color, not using !important to allow headers to override */
+  color: #475569;
+  /* Fallback color, not using !important to allow headers to override */
 }
 
 /* Ensure strong ink headers and elements override body text */
@@ -242,6 +290,7 @@ body.light-theme .text-ink-600 {
 body.light-theme .text-crimson-400 {
   color: #dc2626 !important;
 }
+
 body.light-theme .bg-crimson-600\/15 {
   background-color: rgba(220, 38, 38, 0.1) !important;
 }
@@ -376,6 +425,3 @@ body.light-theme footer .text-gradient-accent {
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
 }
-
-
-
