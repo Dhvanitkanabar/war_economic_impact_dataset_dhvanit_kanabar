@@ -15,8 +15,7 @@ const Register = () => {
   const navigate = useNavigate();
   const { isLoading, error, isAuthenticated } = useSelector((state) => state.auth);
 
-  // Already logged in
-  if (isAuthenticated) return <Navigate to="/dashboard" replace />;
+  // GuestRoute handles redirecting authenticated users
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,10 +32,8 @@ const Register = () => {
 
     dispatch(setLoading(true));
     try {
-      const data = await registerUser({ name, email, password });
-      if (data.token) localStorage.setItem('token', data.token);
-      dispatch(setCredentials({ user: data.user, token: data.token }));
-      navigate('/dashboard', { replace: true });
+      await registerUser({ name, email, password });
+      navigate('/login', { replace: true });
     } catch (err) {
       dispatch(setError(err.response?.data?.message || err.message || 'Registration failed'));
     } finally {
