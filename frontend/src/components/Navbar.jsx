@@ -74,11 +74,16 @@ const Navbar = () => {
           <div className="hidden md:flex items-center gap-7">
             <NavLink to="/" end className={navLinkClass}>Home</NavLink>
             {isAuthenticated && (
-              <NavLink to="/dashboard" className={navLinkClass}>Dashboard</NavLink>
+              <>
+                <NavLink to="/dashboard" className={navLinkClass}>Dashboard</NavLink>
+                <NavLink to="/conflicts" className={navLinkClass}>Conflicts</NavLink>
+                <NavLink to="/statistics" className={navLinkClass}>Statistics</NavLink>
+                <NavLink to="/analytics" className={navLinkClass}>Analytics</NavLink>
+                {user?.role === 'admin' && (
+                  <NavLink to="/conflicts" state={{ adminControls: true }} className={navLinkClass}>Admin Controls</NavLink>
+                )}
+              </>
             )}
-            <NavLink to="/conflicts" className={navLinkClass}>Conflicts</NavLink>
-            <NavLink to="/statistics" className={navLinkClass}>Statistics</NavLink>
-            <NavLink to="/analytics" className={navLinkClass}>Analytics</NavLink>
           </div>
 
           {/* Auth section */}

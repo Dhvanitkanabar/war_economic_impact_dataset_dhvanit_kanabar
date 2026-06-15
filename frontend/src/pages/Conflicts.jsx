@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import { getConflicts } from '../services/conflictService';
 import { searchConflicts } from '../services/searchService';
 
@@ -54,7 +55,7 @@ const fmtInflation = (v) => {
 
 // ─── Row ──────────────────────────────────────────────────────────────────────
 
-const ConflictRow = ({ c }) => (
+const ConflictRow = ({ c, isAdmin }) => (
   <tr className="border-b border-border/60 last:border-0 hover:bg-ink-950/40 transition-colors">
     <td className="px-5 py-3.5">
       <div className="flex items-center gap-2">
@@ -72,16 +73,24 @@ const ConflictRow = ({ c }) => (
     <td className="px-5 py-3.5 text-right text-sm font-mono font-semibold text-accent-400">{fmtGDP(c.gdpImpact)}</td>
     <td className="px-5 py-3.5 text-right text-sm font-mono text-ink-300">{fmtInflation(c.inflationRate)}</td>
     <td className="px-5 py-3.5 text-right text-sm font-mono text-ink-300">{fmtCost(c.warCost)}</td>
+    {isAdmin && (
+      <td className="px-5 py-3.5 text-right">
+        <div className="flex items-center justify-end gap-3">
+          <button className="text-xs font-medium text-ink-400 hover:text-accent-400 transition-colors">Edit</button>
+          <button className="text-xs font-medium text-ink-400 hover:text-crimson-400 transition-colors">Delete</button>
+        </div>
+      </td>
+    )}
   </tr>
 );
 
 // ─── Skeleton ─────────────────────────────────────────────────────────────────
 
-const SkeletonRows = () => (
+const SkeletonRows = ({ isAdmin }) => (
   <>
     {[...Array(6)].map((_, i) => (
       <tr key={i} className="border-b border-border/60">
-        {[...Array(7)].map((__, j) => (
+        {[...Array(isAdmin ? 8 : 7)].map((__, j) => (
           <td key={j} className="px-5 py-3.5">
             <div className="h-4 bg-ink-800/60 rounded animate-pulse" style={{ width: `${60 + Math.random() * 40}%` }} />
           </td>
@@ -130,6 +139,9 @@ const LIMIT = 10;
 const HEADERS = ['Conflict', 'Region', 'Country', 'Status', 'GDP Δ', 'Inflation', 'War Cost'];
 
 const Conflicts = () => {
+  const { user } = useSelector((state) => state.auth);
+  const isAdmin = user?.role === 'admin';
+
   const [conflicts,   setConflicts]   = useState([]);
   const [loading,     setLoading]     = useState(true);
   const [error,       setError]       = useState(null);
@@ -256,6 +268,14 @@ const Conflicts = () => {
           >
             Search
           </button>
+          {isAdmin && (
+            <button
+              type="button"
+              className="clip-corner-sm text-xs font-semibold bg-ink-800 hover:bg-ink-700 text-white px-4 py-2.5 transition-all flex-shrink-0 border border-border"
+            >
+              + Create Conflict
+            </button>
+          )}
         </form>
 
         {/* Count / mode indicator */}
@@ -306,14 +326,19 @@ const Conflicts = () => {
                     {h}
                   </th>
                 ))}
+                {isAdmin && (
+                  <th className="px-5 py-3 text-xs font-semibold text-ink-500 uppercase tracking-wider text-right">
+                    Actions
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody>
               {loading ? (
-                <SkeletonRows />
+                <SkeletonRows isAdmin={isAdmin} />
               ) : conflicts.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-5 py-16 text-center">
+                  <td colSpan={isAdmin ? 8 : 7} className="px-5 py-16 text-center">
                     <div className="flex flex-col items-center gap-3">
                       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -330,7 +355,7 @@ const Conflicts = () => {
                   </td>
                 </tr>
               ) : (
-                conflicts.map((c) => <ConflictRow key={c.id} c={c} />)
+                conflicts.map((c) => <ConflictRow key={c.id} c={c} isAdmin={isAdmin} />)
               )}
             </tbody>
           </table>
