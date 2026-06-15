@@ -85,17 +85,27 @@ body.light-theme {
   color: #475569 !important;
 }
 
-/* Base Card Overrides */
+/* Hide grid overlay and ambient glow in Light Mode */
+body.light-theme .fixed.inset-0.pointer-events-none,
+body.light-theme .fixed.top-0.left-1\/2.-translate-x-1\/2 {
+  display: none !important;
+}
+
+/* Base Card Overrides (Rounded-2xl, soft border, light shadow) */
 body.light-theme .bg-card,
 body.light-theme .bg-ink-950,
 body.light-theme .bg-ink-900\/50,
 body.light-theme .bg-ink-900\/60,
 body.light-theme .bg-ink-950\/40,
 body.light-theme .glass,
-body.light-theme .page-card {
+body.light-theme .page-card,
+body.light-theme .rounded,
+body.light-theme [class*="rounded"] {
   background-color: #ffffff !important;
   background-image: none !important;
   border-color: #e2e8f0 !important;
+  border-radius: 16px !important; /* rounded-2xl */
+  padding: 24px !important;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
   color: #475569 !important;
 }
@@ -108,14 +118,36 @@ body.light-theme nav {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
 }
 
-body.light-theme nav a {
+body.light-theme nav a,
+body.light-theme nav button {
   color: #475569 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+body.light-theme nav a:hover,
+body.light-theme nav button:hover {
+  color: #f97316 !important;
 }
 
 body.light-theme nav a.active {
   color: #f97316 !important;
   background-color: rgba(249, 115, 22, 0.08) !important;
   border-color: rgba(249, 115, 22, 0.15) !important;
+}
+
+/* Hero Section */
+body.light-theme section {
+  background: transparent !important;
+}
+
+body.light-theme .max-w-xl {
+  max-width: 700px !important;
+}
+
+body.light-theme p.text-ink-400 {
+  line-height: 1.8 !important;
+  color: #475569 !important;
 }
 
 /* Text Colors */
@@ -171,8 +203,22 @@ body.light-theme .bg-accent-500 * {
 }
 
 body.light-theme .text-accent-400,
-body.light-theme .text-accent-500 {
+body.light-theme .text-accent-500,
+body.light-theme .text-gradient-accent {
   color: #f97316 !important;
+}
+
+/* Secondary Button style override */
+body.light-theme .bg-card.border.border-border.text-ink-200 {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+body.light-theme .bg-card.border.border-border.text-ink-200:hover {
+  background-color: #f1f5f9 !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
 }
 
 /* Borders */
@@ -226,6 +272,25 @@ body.light-theme textarea:focus {
   outline: 2px solid rgba(249, 115, 22, 0.2) !important;
 }
 
+body.light-theme input:hover,
+body.light-theme select:hover,
+body.light-theme textarea:hover {
+  border-color: #94a3b8 !important;
+}
+
+/* Settings radio alignment */
+body.light-theme .flex.gap-4 {
+  gap: 1.5rem !important;
+}
+
+body.light-theme input[type="radio"] {
+  width: 1rem !important;
+  height: 1rem !important;
+  margin: 0 !important;
+  accent-color: #f97316 !important;
+  cursor: pointer !important;
+}
+
 /* Footer Styling */
 body.light-theme footer {
   background-color: #ffffff !important;
@@ -238,5 +303,6 @@ body.light-theme footer .text-gradient-accent {
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
 }
+
 
 
