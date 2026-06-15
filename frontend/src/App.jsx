@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout.jsx';
 import Home from './pages/Home.jsx';
@@ -20,7 +20,21 @@ import EditConflict from './pages/admin/EditConflict.jsx';
 import ReplaceConflict from './pages/admin/ReplaceConflict.jsx';
 import Profile from './pages/Profile.jsx';
 import Settings from './pages/Settings.jsx';
+
 function App() {
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') {
+      document.body.classList.add('light-theme');
+      document.body.style.backgroundColor = '#f8fafc';
+      document.body.style.color = '#0f172a';
+    } else {
+      document.body.classList.remove('light-theme');
+      document.body.style.backgroundColor = '#0b0e14';
+      document.body.style.color = '#eceef2';
+    }
+  }, []);
+
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
