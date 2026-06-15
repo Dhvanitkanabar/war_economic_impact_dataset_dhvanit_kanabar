@@ -79,7 +79,9 @@ body, header, nav, footer, table, tr, th, td, input, select, textarea, button, a
 }
 
 /* Light Theme Overrides */
-body.light-theme {
+body.light-theme,
+body.light-theme .bg-dark,
+body.light-theme .min-h-screen.bg-dark {
   background-color: #f8fafc !important;
   background-image: none !important;
   color: #475569 !important;
