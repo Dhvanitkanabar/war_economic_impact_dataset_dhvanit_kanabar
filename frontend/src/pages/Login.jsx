@@ -14,11 +14,7 @@ const Login = () => {
   const location = useLocation();
   const { isLoading, error, isAuthenticated } = useSelector((state) => state.auth);
 
-  // Already logged in — redirect to dashboard or the page they came from
-  if (isAuthenticated) {
-    const from = location.state?.from?.pathname || '/dashboard';
-    return <Navigate to={from} replace />;
-  }
+  // GuestRoute now handles redirecting authenticated users
 
   const handleSubmit = async (e) => {
     e.preventDefault();

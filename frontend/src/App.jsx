@@ -12,14 +12,18 @@ import ApiTest from './pages/ApiTest.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import ProtectedRoute from './components/auth/ProtectedRoute.jsx';
 import AdminRoute from './components/auth/AdminRoute.jsx';
+import GuestRoute from './components/auth/GuestRoute.jsx';
 import Unauthorized from './pages/Unauthorized.jsx';
+import AdminPanel from './pages/AdminPanel.jsx';
+import Profile from './pages/Profile.jsx';
+import Settings from './pages/Settings.jsx';
 function App() {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
+        <Route path="login" element={<GuestRoute><Login /></GuestRoute>} />
+        <Route path="register" element={<GuestRoute><Register /></GuestRoute>} />
         <Route path="api-test" element={<ApiTest />} />
 
         {/* Protected routes */}
@@ -61,6 +65,56 @@ function App() {
             <ProtectedRoute>
               <Conflicts />
             </ProtectedRoute>
+          }
+        />
+        <Route
+          path="profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Admin routes */}
+        <Route
+          path="admin/conflicts/create"
+          element={
+            <AdminRoute>
+              <AdminPanel />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/conflicts/edit/:id"
+          element={
+            <AdminRoute>
+              <AdminPanel />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/conflicts/replace/:id"
+          element={
+            <AdminRoute>
+              <AdminPanel />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/conflicts/delete/:id"
+          element={
+            <AdminRoute>
+              <AdminPanel />
+            </AdminRoute>
           }
         />
 

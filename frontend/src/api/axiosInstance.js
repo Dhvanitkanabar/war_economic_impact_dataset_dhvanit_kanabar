@@ -1,5 +1,6 @@
 import axios from 'axios';
-
+import { store } from '../app/store';
+import { logout, setError } from '../features/auth/authSlice';
 // Fallback to the production URL if the env variable is missing
 const BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
@@ -37,6 +38,19 @@ axiosInstance.interceptors.response.use(
         error.response?.data
       );
     }
+
+    if (error.response?.status === 401 || error.response?.status === 403) {
+      localStorage.removeItem('token');
+      store.dispatch(setError('Session expired. Please sign in again.'));
+      store.dispatch(logout());
+      
+      // Optionally redirect, but standard React patterns usually handle this 
+      // via ProtectedRoute when isAuthenticated becomes false.
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
+    }
+
     return Promise.reject(error);
   }
 );

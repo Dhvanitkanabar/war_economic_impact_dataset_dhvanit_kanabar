@@ -31,7 +31,7 @@ const Navbar = () => {
     }
     localStorage.removeItem('token');
     dispatch(logout());
-    navigate('/login');
+    navigate('/');
   };
 
   const navLinkClass = ({ isActive }) =>
@@ -80,8 +80,9 @@ const Navbar = () => {
                 <NavLink to="/statistics" className={navLinkClass}>Statistics</NavLink>
                 <NavLink to="/analytics" className={navLinkClass}>Analytics</NavLink>
                 {user?.role === 'admin' && (
-                  <NavLink to="/conflicts" state={{ adminControls: true }} className={navLinkClass}>Admin Controls</NavLink>
+                  <NavLink to="/admin/conflicts/create" className={navLinkClass}>Admin Panel</NavLink>
                 )}
+                <NavLink to="/profile" className={navLinkClass}>Profile</NavLink>
               </>
             )}
           </div>
@@ -156,6 +157,28 @@ const Navbar = () => {
                         </svg>
                         Analytics
                       </Link>
+                      <Link
+                        to="/profile"
+                        onClick={() => setDropdownOpen(false)}
+                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-ink-300 hover:text-white hover:bg-ink-900/60 transition-colors"
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                        </svg>
+                        Profile
+                      </Link>
+                      {user?.role === 'admin' && (
+                        <Link
+                          to="/admin/conflicts/create"
+                          onClick={() => setDropdownOpen(false)}
+                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-ink-300 hover:text-white hover:bg-ink-900/60 transition-colors"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                          </svg>
+                          Admin Panel
+                        </Link>
+                      )}
                     </div>
 
                     {/* Logout */}
