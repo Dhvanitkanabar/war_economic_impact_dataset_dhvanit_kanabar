@@ -15,6 +15,9 @@ import AdminRoute from './components/auth/AdminRoute.jsx';
 import GuestRoute from './components/auth/GuestRoute.jsx';
 import Unauthorized from './pages/Unauthorized.jsx';
 import AdminPanel from './pages/AdminPanel.jsx';
+import CreateConflict from './pages/admin/CreateConflict.jsx';
+import EditConflict from './pages/admin/EditConflict.jsx';
+import ReplaceConflict from './pages/admin/ReplaceConflict.jsx';
 import Profile from './pages/Profile.jsx';
 import Settings from './pages/Settings.jsx';
 function App() {
@@ -86,10 +89,18 @@ function App() {
 
         {/* Admin routes */}
         <Route
-          path="admin/conflicts/create"
+          path="admin"
           element={
             <AdminRoute>
               <AdminPanel />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/conflicts/create"
+          element={
+            <AdminRoute>
+              <CreateConflict />
             </AdminRoute>
           }
         />
@@ -97,7 +108,7 @@ function App() {
           path="admin/conflicts/edit/:id"
           element={
             <AdminRoute>
-              <AdminPanel />
+              <EditConflict />
             </AdminRoute>
           }
         />
@@ -105,15 +116,7 @@ function App() {
           path="admin/conflicts/replace/:id"
           element={
             <AdminRoute>
-              <AdminPanel />
-            </AdminRoute>
-          }
-        />
-        <Route
-          path="admin/conflicts/delete/:id"
-          element={
-            <AdminRoute>
-              <AdminPanel />
+              <ReplaceConflict />
             </AdminRoute>
           }
         />

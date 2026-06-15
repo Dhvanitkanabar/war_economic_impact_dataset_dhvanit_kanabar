@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { getConflicts } from '../services/conflictService';
+import { Link } from 'react-router-dom';
+import { getConflicts, deleteConflict } from '../services/conflictService';
 import { searchConflicts } from '../services/searchService';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -76,8 +77,15 @@ const ConflictRow = ({ c, isAdmin }) => (
     {isAdmin && (
       <td className="px-5 py-3.5 text-right">
         <div className="flex items-center justify-end gap-3">
-          <button className="text-xs font-medium text-ink-400 hover:text-accent-400 transition-colors">Edit</button>
-          <button className="text-xs font-medium text-ink-400 hover:text-crimson-400 transition-colors">Delete</button>
+          <Link to={`/admin/conflicts/edit/${c.id}`} className="text-xs font-medium text-ink-400 hover:text-accent-400 transition-colors">Edit</Link>
+          <Link to={`/admin/conflicts/replace/${c.id}`} className="text-xs font-medium text-ink-400 hover:text-accent-400 transition-colors">Replace</Link>
+          <button 
+            onClick={() => window.confirm('Are you sure you want to delete this conflict?') && onDelete(c.id)} 
+            disabled={c.isDeleting}
+            className="text-xs font-medium text-ink-400 hover:text-crimson-400 disabled:opacity-50 transition-colors"
+          >
+            {c.isDeleting ? 'Deleting...' : 'Delete'}
+          </button>
         </div>
       </td>
     )}
@@ -208,6 +216,25 @@ const Conflicts = () => {
   }, [searchQuery, fetchSearch, fetchConflicts]);
 
   // ── Handlers ──────────────────────────────────────────────────────────────────
+  const handleDelete = async (id) => {
+    // Optimistically mark as deleting to show loading state
+    setConflicts((prev) => prev.map((c) => c.id === id ? { ...c, isDeleting: true } : c));
+    setError(null);
+    try {
+      await deleteConflict(id);
+      // Refresh list
+      if (isSearchMode) {
+        fetchSearch(searchQuery);
+      } else {
+        fetchConflicts(page);
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || err.message || 'Failed to delete conflict.');
+      // Revert deleting state
+      setConflicts((prev) => prev.map((c) => c.id === id ? { ...c, isDeleting: false } : c));
+    }
+  };
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     setSearchQuery(searchInput);
@@ -269,12 +296,12 @@ const Conflicts = () => {
             Search
           </button>
           {isAdmin && (
-            <button
-              type="button"
+            <Link
+              to="/admin/conflicts/create"
               className="clip-corner-sm text-xs font-semibold bg-ink-800 hover:bg-ink-700 text-white px-4 py-2.5 transition-all flex-shrink-0 border border-border"
             >
               + Create Conflict
-            </button>
+            </Link>
           )}
         </form>
 
@@ -355,7 +382,7 @@ const Conflicts = () => {
                   </td>
                 </tr>
               ) : (
-                conflicts.map((c) => <ConflictRow key={c.id} c={c} isAdmin={isAdmin} />)
+                conflicts.map((c) => <ConflictRow key={c.id} c={c} isAdmin={isAdmin} onDelete={handleDelete} />)
               )}
             </tbody>
           </table>
