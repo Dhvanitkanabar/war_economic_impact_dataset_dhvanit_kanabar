@@ -1,119 +1,39 @@
-# 🌍 WarLens – War Economic Impact Analysis Platform
+# 🌍 WarLens
 
-## 📖 Overview
+### AI-Powered War Economic Impact Analysis Dashboard
 
-WarLens is a full-stack data analytics platform designed to analyze the economic impact of wars and conflicts around the world.
-
-The platform provides insights into inflation, GDP decline, unemployment, poverty rates, food insecurity, reconstruction costs, war expenses, and black market activities caused by conflicts.
-
-WarLens helps users explore historical and ongoing conflicts through powerful search, filtering, analytics, and visualization tools.
+**WarLens** is a professional, industry-quality full-stack MERN dashboard designed to analyze and visualize the profound economic impacts of global conflicts. Leveraging interactive data visualizations, advanced search/filtering, and real-time state synchronization, the platform centralizes key metrics—such as GDP contraction, inflation spikes, reconstruction costs, unemployment rates, and black market activity levels—into a cohesive, role-based analytics portal.
 
 ---
 
-## 🎯 Problem Statement
+## 🔗 Live Demo
 
-Wars affect economies in multiple ways, but the data is often scattered across reports and datasets.
-
-WarLens centralizes this information and provides:
-
-* Economic impact analysis
-* Conflict statistics
-* Region-wise insights
-* Searchable conflict database
-* Interactive analytics dashboard
-* Role-based administration system
+- **Frontend Application:** [https://warlens-rosy.vercel.app](https://warlens-rosy.vercel.app)
+- **Backend API Base:** [https://war-economic-impact-dataset-dhvanit.onrender.com/api](https://war-economic-impact-dataset-dhvanit.onrender.com/api)
+- **GitHub Repository:** [https://github.com/Dhvanitkanabar/war_economic_impact_dataset_dhvanit_kanabar](https://github.com/Dhvanitkanabar/war_economic_impact_dataset_dhvanit_kanabar)
 
 ---
 
-## 🚀 Features
+## 🚀 Key Features
 
-### Conflict Management
+### 📊 Analytics & Interactive Visualizations
+* **Dynamic Recharts Integration:** Responsive charts displaying region distribution, conflict types, war expenses, and economic indicators.
+* **Unified Statistics Overview:** Real-time metrics displaying total tracked conflicts, ongoing vs. resolved wars, and records with the highest inflation or lowest GDP changes.
 
-* Create conflict records
-* View all conflicts
-* View conflict details
-* Update conflict information
-* Delete conflict records
+### 🔍 Advanced Search, Filtering, and Pagination
+* **Keyword & Field Search:** Instant searches by conflict name, primary country, or affected sectors.
+* **Granular Multi-Filter:** Filter results dynamically by region, conflict type, status, and various economic parameters.
+* **State Persistence:** Filter settings, page states, and sort choices are persisted in session storage to improve navigation.
 
-### Search & Filtering
+### 🔐 Authentication & Role-Based Access Control (RBAC)
+* **Secure JWT flow:** Registration and login endpoints using hashed credentials and secure token-based authorization.
+* **Route Protection:** Seamless client-side protection with custom `ProtectedRoute`, `AdminRoute`, and `GuestRoute` components.
+* **Administrative Controls:** Dedicated admin panel with CRUD capability (Create, Read, Update, Delete) to manage conflicts safely.
 
-* Keyword search
-* Region filtering
-* Country filtering
-* Conflict type filtering
-* Status filtering
-* Economic indicator filtering
-
-### Sorting & Pagination
-
-* Inflation sorting
-* GDP sorting
-* War cost sorting
-* Reconstruction cost sorting
-* Paginated results
-
-### Statistics
-
-* Total conflicts
-* Ongoing conflicts
-* Resolved conflicts
-* Highest inflation conflict
-* Lowest GDP conflict
-* Highest war cost conflict
-* Highest reconstruction cost conflict
-
-### Analytics
-
-* Region distribution
-* Conflict type distribution
-* War cost by region
-* Inflation by region
-* Sector impact analysis
-
-### Authentication & Security
-
-* User Registration
-* User Login
-* JWT Authentication
-* Protected Routes
-* Admin Authorization
-
----
-
-## 🛠 Tech Stack
-
-### Frontend
-
-* React.js
-* Vite
-* Tailwind CSS (Planned)
-* Redux Toolkit
-* Axios
-* React Router DOM
-
-### Backend
-
-* Node.js
-* Express.js
-
-### Database
-
-* MongoDB Atlas
-* Mongoose
-
-### Authentication
-
-* JWT
-* bcryptjs
-
-### Testing
-
-* Postman
-
-### Deployment
-
-* Render (Backend)
-* Vercel (Frontend – Planned)
+### 🎨 Premium UI/UX & Quality-of-Life Systems
+* **System Theme Sync:** Dark and light modes with optimized contrast, micro-animations, and smooth transitions.
+* **Optimized Rendering Performance:** Implemented React Code Splitting (`lazy`/`Suspense`), `useMemo`, and `useCallback` to maximize client efficiency.
+* **Robust Error Handling:** Integrated unified toast notifications (`react-hot-toast`) and a global React `ErrorBoundary` component to capture and display fallbacks gracefully.
 
 ---
 
@@ -122,231 +42,121 @@ WarLens centralizes this information and provides:
 ```bash
 warlens/
 │
-├── frontend/
+├── frontend/                     # React / Vite Client Application
 │   ├── src/
-│   ├── public/
-│   └── README.md
+│   │   ├── api/                  # Axios instances and base configurations
+│   │   ├── app/                  # Redux global store configurations
+│   │   ├── components/           # Common components (Navbar, Footer, ErrorBoundary)
+│   │   │   ├── auth/             # Protected and role-based route guards
+│   │   │   └── forms/            # Form inputs and submit buttons
+│   │   ├── features/             # Redux slices (auth)
+│   │   ├── layouts/              # Main layout wraps
+│   │   ├── pages/                # Analytics, Dashboard, Conflicts, Admin CRUD pages
+│   │   ├── App.jsx               # Application main router config
+│   │   └── main.jsx              # React mounting and initializations
+│   └── package.json
 │
-├── backend/
+├── backend/                      # Node / Express API Service
 │   ├── src/
-│   │   ├── config/
-│   │   ├── controllers/
-│   │   ├── routes/
-│   │   ├── models/
-│   │   ├── middlewares/
-│   │   ├── seed/
-│   │   ├── utils/
-│   │   └── data/
-│   └── README.md
+│   │   ├── config/               # Database and authentication configs
+│   │   ├── controllers/          # API endpoint logic handlers
+│   │   ├── models/               # Mongoose schemas (User, Conflict)
+│   │   ├── routes/               # Express routing tables
+│   │   ├── seed/                 # Seeding scripts for initial datasets
+│   │   └── middlewares/          # JWT and role-based authorization check handlers
+│   └── package.json
 │
-└── docs/
+└── docs/                         # Additional project documentation
 ```
 
 ---
 
-## 🔐 Authentication Flow
+## 📊 Dataset Metadata
 
-1. User registers an account.
-2. User logs in.
-3. Server generates JWT token.
-4. Token is sent with protected requests.
-5. Middleware verifies token.
-6. Admin-only routes require admin role.
-
----
-
-## 📊 Dataset Information
-
-The project uses a curated War Economic Impact Dataset containing:
-
-* Conflict Name
-* Conflict Type
-* Region
-* Country
-* Start Year
-* End Year
-* Inflation Rate
-* GDP Change
-* Poverty Rate
-* Food Insecurity
-* Unemployment
-* War Cost
-* Reconstruction Cost
-* Black Market Activity
-* Currency Devaluation
+The platform tracks and aggregates a specialized dataset containing:
+* **Conflict Identification:** Name, Type, Region, Primary Country, and Duration (Start/End Years).
+* **Macroeconomic Data:** GDP Change (%), Inflation Rate (%), and Unemployment Spikes.
+* **Social Indicators:** Pre/During war poverty levels, Food Insecurity Rate (%), and household poverty counts.
+* **Financial Burden:** War expenses (USD) and estimated Reconstruction Costs (USD).
+* **Black Market Metrics:** Activity levels, primary traded commodities, and currency gaps.
 
 ---
 
-## 🌐 Live Deployment
+## 📌 API Reference Highlights
 
-### Backend API
-
-```txt
-https://war-economic-impact-dataset-dhvanit.onrender.com
-```
-
-### API Base URL
-
-```txt
-https://war-economic-impact-dataset-dhvanit.onrender.com/api
-```
-
----
-
-## 📌 API Highlights
-
-### Authentication
-
+### Authentication & Profiles
 ```http
-POST /api/auth/register
-POST /api/auth/login
-GET  /api/auth/profile
+POST /api/auth/register    - Register a new user account
+POST /api/auth/login       - Retrieve JWT session token
+GET  /api/auth/profile     - Fetch profile information (Protected)
 ```
 
-### Conflicts
-
+### Conflict Management & CRUD
 ```http
-GET    /api/conflicts
-GET    /api/conflicts/:id
-POST   /api/conflicts
-PUT    /api/conflicts/:id
-PATCH  /api/conflicts/:id
-DELETE /api/conflicts/:id
+GET    /api/conflicts      - Paginated, searchable & filterable list of conflicts
+GET    /api/conflicts/:id  - Get details of a single conflict
+POST   /api/conflicts      - Add a new conflict record (Admin only)
+PUT    /api/conflicts/:id  - Update an existing conflict record (Admin only)
+DELETE /api/conflicts/:id  - Remove a conflict record (Admin only)
 ```
 
-### Search
-
+### Statistics & Aggregates
 ```http
-GET /api/conflicts/search?keyword=Japan
-```
-
-### Statistics
-
-```http
-GET /api/conflicts/stats/overview
-GET /api/conflicts/stats/highest-inflation
-GET /api/conflicts/stats/lowest-gdp
-```
-
-### Analytics
-
-```http
-GET /api/conflicts/analytics/region-distribution
-GET /api/conflicts/analytics/type-distribution
-GET /api/conflicts/analytics/war-cost-by-region
+GET /api/conflicts/stats/overview           - Get overall dashboard metrics
+GET /api/conflicts/stats/highest-inflation   - Fetch conflict with highest inflation
+GET /api/conflicts/stats/lowest-gdp         - Fetch conflict with lowest GDP
+GET /api/conflicts/analytics/region-distribution  - Region distribution counts
+GET /api/conflicts/analytics/type-distribution    - Type distribution counts
 ```
 
 ---
 
-## 🎓 What I Learned
-
-Through this project, I gained hands-on experience in:
-
-* Express.js Architecture
-* MongoDB & Mongoose
-* REST API Development
-* JWT Authentication
-* Role-Based Access Control (RBAC)
-* Middleware Design
-* Search APIs
-* Filtering, Sorting & Pagination
-* Aggregation Pipelines
-* API Documentation
-* Postman Testing
-* Deployment using Render
-* GitHub Pull Request Workflow
-
----
-
-## 📈 Current Status
-
-### Backend
-✅ Completed
-* CRUD APIs
-* Search APIs
-* Statistics APIs
-* Analytics APIs
-* Authentication
-* Authorization
-* Error Handling
-* Documentation
-* Deployment
-
-### Frontend
-✅ Completed
-* React / Vite Setup
-* Code Splitting (lazy loading) & Suspense
-* State Management (Redux Slices)
-* Responsive Analytics charts (Recharts)
-* Unified Notification and Error boundary system
-
----
-
-## 🚀 Installation & Quick Start
+## 🛠️ Installation & Setup
 
 ### Prerequisites
 - Node.js (v18+)
-- MongoDB (running locally or Atlas cluster)
+- MongoDB Atlas cluster or local MongoDB instance
 
-### Setup Backend
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Set environment variables in a `.env` file (e.g. `PORT=5000`, `MONGO_URI`, `JWT_SECRET`).
-4. Seed the database (optional):
-   ```bash
-   npm run seed
-   ```
-5. Start the backend development server:
-   ```bash
-   npm run dev
-   ```
+### 1. Setup Backend Server
+```bash
+cd backend
+npm install
+```
+* Create a `.env` file in the `backend` folder and populate it:
+```env
+PORT=5000
+MONGO_URI=your_mongodb_connection_uri
+JWT_SECRET=your_jwt_secret_key
+NODE_ENV=development
+```
+* Run the seeding script to populate default data:
+```bash
+npm run seed
+```
+* Start the server in development mode:
+```bash
+npm run dev
+```
 
-### Setup Frontend
-1. Navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Set base URL in a `.env` file (e.g. `VITE_API_BASE_URL=http://localhost:5000/api`).
-4. Start the frontend:
-   ```bash
-   npm run dev
-   ```
-
----
-
-## 📸 Screenshots & Previews
-
-*Here are some visual demonstrations of the application:*
-
-- **Dark Mode Analytics**:
-  *(A dynamic dark mode dashboard featuring pie charts for regional distribution, bar charts for cost comparisons, and line charts for historical trends)*
-- **Light Mode Transition**:
-  *(Theme-switched settings and profile menus showing polished, high-contrast light mode styling)*
-- **Interactive Map / Conflict Database**:
-  *(Advanced filtering fields and sorted paginated views for conflicts)*
+### 2. Setup Frontend Client
+```bash
+cd ../frontend
+npm install
+```
+* Create a `.env` file in the `frontend` folder and add:
+```env
+VITE_API_BASE_URL=http://localhost:5000/api
+```
+* Start the frontend development server:
+```bash
+npm run dev
+```
 
 ---
 
-## 👨‍💻 Developer
+## 👨‍💻 Developer & Portfolio
 
-**Dhvanit Kanabar**
+Developed and maintained by **Dhvanit Kanabar**.
 
-* GitHub: https://github.com/Dhvanitkanabar
-* LinkedIn: https://www.linkedin.com/in/dhvanit-kanabar/
-
----
-
-## 📜 License
-
-This project is developed for educational and academic purposes.
-
+* **GitHub:** [https://github.com/Dhvanitkanabar](https://github.com/Dhvanitkanabar)
+* **LinkedIn:** [https://www.linkedin.com/in/dhvanit-kanabar/](https://www.linkedin.com/in/dhvanit-kanabar/)
