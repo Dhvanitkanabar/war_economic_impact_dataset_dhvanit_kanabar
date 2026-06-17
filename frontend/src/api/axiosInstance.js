@@ -13,7 +13,7 @@ const axiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 15000, // 15s — Render cold-start can be slow
+  timeout: 60000, // 60s — Render cold-start can be slow (free tier takes ~50s)
 });
 
 // ── Request interceptor: attach token ──────────────────────────────────────
