@@ -181,15 +181,6 @@ const Analytics = () => {
   const avgWarCost = totalConflicts > 0 ? totalWarCost / totalConflicts : 0;
   const avgReconCost = totalConflicts > 0 ? totalReconCost / totalConflicts : 0;
 
-  // Check if any data exists
-  if (totalConflicts === 0 && regionData.length === 0 && typeData.length === 0) {
-    return (
-      <div className="flex-1 w-full max-w-7xl mx-auto px-6 py-12">
-        <EmptyState />
-      </div>
-    );
-  }
-
   // 1. Pie Chart: Conflict Status Distribution
   const statusPieData = useMemo(() => [
     { name: 'Active/Ongoing', value: activeConflicts },
@@ -257,6 +248,15 @@ const Analytics = () => {
         'Avg Inflation (%)': g.countWithEcon > 0 ? Number((g.sumInflation / g.countWithEcon).toFixed(1)) : 0
       }));
   }, [rawConflicts]);
+
+  // Check if any data exists (must be after all hook calls to satisfy rules of hooks)
+  if (totalConflicts === 0 && regionData.length === 0 && typeData.length === 0) {
+    return (
+      <div className="flex-1 w-full max-w-7xl mx-auto px-6 py-12">
+        <EmptyState />
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 w-full max-w-7xl mx-auto px-6 py-12 flex flex-col gap-10">
