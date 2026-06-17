@@ -94,9 +94,6 @@ const Analytics = () => {
   const [stats, setStats] = useState(null);
   const [regionData, setRegionData] = useState([]);
   const [typeData, setTypeData] = useState([]);
-  const [warCostRegion, setWarCostRegion] = useState([]);
-  const [inflationRegion, setInflationRegion] = useState([]);
-  const [sectorData, setSectorData] = useState([]);
   const [rawConflicts, setRawConflicts] = useState([]);
 
   useEffect(() => {
@@ -114,9 +111,9 @@ const Analytics = () => {
           resStats,
           resRegion,
           resType,
-          resWarCost,
-          resInflation,
-          resSector,
+          _resWarCost,
+          _resInflation,
+          _resSector,
           resConflicts
         ] = await Promise.all([
           getStatsOverview().catch(() => null),
@@ -133,11 +130,8 @@ const Analytics = () => {
         const extractList = (d) => Array.isArray(d) ? d : (d?.data || d?.distribution || []);
         setRegionData(extractList(resRegion));
         setTypeData(extractList(resType));
-        setWarCostRegion(extractList(resWarCost));
-        setInflationRegion(extractList(resInflation));
-        setSectorData(extractList(resSector));
         setRawConflicts(extractList(resConflicts));
-      } catch (err) {
+      } catch {
         setError('Failed to load analytics dashboard data.');
       } finally {
         clearTimeout(timer);
@@ -147,25 +141,6 @@ const Analytics = () => {
 
     fetchData();
   }, []);
-
-  if (loading) {
-    return (
-      <div className="flex-1 w-full max-w-7xl mx-auto px-6 py-24 flex flex-col items-center justify-center gap-4">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-accent-500"></div>
-        <p className="text-sm font-mono text-ink-300 animate-pulse">{loadingMsg}</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex-1 w-full max-w-7xl mx-auto px-6 py-12">
-        <div className="p-4 bg-crimson-600/10 border border-crimson-600/30 rounded-xl text-sm text-crimson-400">
-          {error}
-        </div>
-      </div>
-    );
-  }
 
   // Derive counts & lists
   const totalConflicts = stats?.totalConflicts ?? rawConflicts.length ?? 0;
@@ -249,6 +224,25 @@ const Analytics = () => {
       }));
   }, [rawConflicts]);
 
+  if (loading) {
+    return (
+      <div className="flex-1 w-full max-w-7xl mx-auto px-6 py-24 flex flex-col items-center justify-center gap-4">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-accent-500"></div>
+        <p className="text-sm font-mono text-ink-300 animate-pulse">{loadingMsg}</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex-1 w-full max-w-7xl mx-auto px-6 py-12">
+        <div className="p-4 bg-crimson-600/10 border border-crimson-600/30 rounded-xl text-sm text-crimson-400">
+          {error}
+        </div>
+      </div>
+    );
+  }
+
   // Check if any data exists (must be after all hook calls to satisfy rules of hooks)
   if (totalConflicts === 0 && regionData.length === 0 && typeData.length === 0) {
     return (
@@ -298,7 +292,7 @@ const Analytics = () => {
                   outerRadius={80}
                   paddingAngle={5}
                   dataKey="value"
-                  label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
+                  label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
                 >
                   <Cell fill="#ef4444" />
                   <Cell fill="#10b981" />
@@ -322,7 +316,7 @@ const Analytics = () => {
                   cy="50%"
                   outerRadius={80}
                   dataKey="value"
-                  label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
+                  label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
                 >
                   {regionPieData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -348,7 +342,7 @@ const Analytics = () => {
                   innerRadius={30}
                   outerRadius={80}
                   dataKey="value"
-                  label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
+                  label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
                 >
                   {typePieData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[(index + 3) % COLORS.length]} />

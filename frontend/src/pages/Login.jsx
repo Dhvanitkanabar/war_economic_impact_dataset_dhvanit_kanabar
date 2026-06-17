@@ -82,7 +82,7 @@ const Login = () => {
               validationSchema={LoginSchema}
               onSubmit={handleSubmit}
             >
-              {({ isSubmitting }) => (
+              {() => (
                 <Form className="space-y-5">
                   <FormInput
                     label="Email address"
@@ -121,7 +121,7 @@ const Login = () => {
 
           <div className="px-6 md:px-8 py-4 bg-ink-950/40 border-t border-border text-center">
             <p className="text-xs text-muted">
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
               <Link to="/register" className="text-accent-400 hover:text-accent-300 font-medium transition-colors">
                 Create one free
               </Link>

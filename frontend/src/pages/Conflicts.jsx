@@ -91,21 +91,6 @@ const ConflictRow = ({ c, isAdmin, onDelete }) => (
   </tr>
 );
 
-// ─── Skeleton ─────────────────────────────────────────────────────────────────
-
-const SkeletonRows = ({ isAdmin }) => (
-  <>
-    {[...Array(6)].map((_, i) => (
-      <tr key={i} className="border-b border-border/60">
-        {[...Array(isAdmin ? 8 : 7)].map((__, j) => (
-          <td key={j} className="px-5 py-3.5">
-            <div className="h-4 bg-ink-800/60 rounded animate-pulse" style={{ width: `${60 + Math.random() * 40}%` }} />
-          </td>
-        ))}
-      </tr>
-    ))}
-  </>
-);
 
 // ─── Pagination ───────────────────────────────────────────────────────────────
 
