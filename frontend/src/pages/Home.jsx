@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button.jsx';
+import SEO from '../components/SEO.jsx';
 
 const StatBadge = ({ value, label, trend }) => (
   <div className="bg-card border border-border rounded p-5 space-y-1 hover:border-accent-700 transition-colors">
@@ -48,6 +49,7 @@ const Home = () => {
 
   return (
     <div className="flex-1 w-full max-w-7xl mx-auto px-6 py-12 flex flex-col gap-16">
+      <SEO title="Home" description="WarLens is an AI-powered war economic impact analysis platform providing interactive analytics, historical insights, and real-time conflict statistics." path="/" />
 
       {/* Hero */}
       <section className="flex flex-col items-start gap-6 pt-4">

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { getStatsOverview } from '../services/statsService';
 import { getConflicts } from '../services/conflictService';
 import { getRegionDistribution } from '../services/analyticsService';
+import SEO from '../components/SEO.jsx';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -162,6 +163,7 @@ const Dashboard = () => {
 
   return (
     <div className="flex-1 w-full max-w-7xl mx-auto px-6 py-10 flex flex-col gap-10">
+      <SEO title="Dashboard" description="Explore overall conflict metrics, statistics overview, and recent activity updates on the WarLens dashboard." path="/dashboard" />
 
       {/* ── Welcome Header ── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">

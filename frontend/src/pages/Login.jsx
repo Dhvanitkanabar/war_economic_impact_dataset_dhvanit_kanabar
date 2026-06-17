@@ -9,6 +9,7 @@ import FormInput from '../components/forms/FormInput';
 import SubmitButton from '../components/forms/SubmitButton';
 
 import toast from 'react-hot-toast';
+import SEO from '../components/SEO.jsx';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -50,6 +51,7 @@ const Login = () => {
 
   return (
     <div className="flex-1 flex items-center justify-center p-6 py-16">
+      <SEO title="Login" description="Sign in to your WarLens account to view secure economic analysis." path="/login" />
       <div className="w-full max-w-md">
 
         {/* Header */}

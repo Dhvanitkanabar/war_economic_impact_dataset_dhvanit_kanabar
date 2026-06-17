@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-
 import toast from 'react-hot-toast';
+import SEO from '../components/SEO.jsx';
 
 const Settings = () => {
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
@@ -39,6 +39,7 @@ const Settings = () => {
 
   return (
     <div className="flex-1 w-full max-w-2xl mx-auto px-6 py-12">
+      <SEO title="Settings" description="Configure your WarLens theme, session persistence, and filter settings." path="/settings" />
       <div className="mb-8">
         <h1 className="text-3xl font-black text-ink-50">Settings</h1>
         <p className="text-muted mt-2 text-sm">Configure your application preferences.</p>
