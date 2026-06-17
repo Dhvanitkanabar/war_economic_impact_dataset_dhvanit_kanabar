@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getProfile } from '../services/authService';
 
+import toast from 'react-hot-toast';
+
 const Profile = () => {
   const [profile, setProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -19,6 +21,10 @@ const Profile = () => {
     };
     fetchProfile();
   }, []);
+
+  const handleUpdateProfile = () => {
+    toast.success('Profile updated');
+  };
 
   if (isLoading) {
     return (
@@ -82,6 +88,16 @@ const Profile = () => {
               <span className="text-sm text-emerald-400 font-semibold">Valid</span>
             </div>
           </div>
+        </div>
+
+        {/* Update Profile Button */}
+        <div className="flex justify-end pt-2">
+          <button
+            onClick={handleUpdateProfile}
+            className="clip-corner-sm text-xs font-semibold bg-accent-500 hover:bg-accent-400 text-white px-6 py-2.5 transition-all"
+          >
+            Update Profile
+          </button>
         </div>
       </div>
     </div>

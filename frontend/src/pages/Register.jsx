@@ -22,6 +22,8 @@ const RegisterSchema = Yup.object().shape({
     .required('This field is required')
 });
 
+import toast from 'react-hot-toast';
+
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,9 +38,12 @@ const Register = () => {
         email: values.email,
         password: values.password
       });
+      toast.success('Registration successful');
       navigate('/login', { replace: true });
     } catch (err) {
-      dispatch(setError(err.response?.data?.message || err.message || 'Registration failed'));
+      const errMsg = err.response?.data?.message || err.message || 'Registration failed';
+      dispatch(setError(errMsg));
+      toast.error(errMsg);
     } finally {
       dispatch(setLoading(false));
     }

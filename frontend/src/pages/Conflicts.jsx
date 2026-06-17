@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { getConflicts, deleteConflict } from '../services/conflictService';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -290,11 +291,23 @@ const Conflicts = () => {
   }, [page, filters, sortField, sortOrder, fetchConflicts]);
 
   // ── Handlers ──────────────────────────────────────────────────────────────────
+
   const handleDelete = async (id) => {
+    // Warning notification before proceeding with deletion confirmation
+    toast('Warning: Deleting a conflict is a permanent action.', {
+      icon: '⚠️',
+      duration: 4000,
+    });
+
+    if (!window.confirm('Are you sure you want to delete this conflict?')) {
+      return;
+    }
+
     setConflicts((prev) => prev.map((c) => c.id === id ? { ...c, isDeleting: true } : c));
     setError(null);
     try {
       await deleteConflict(id);
+      toast.success('Conflict deleted');
       fetchConflicts(page);
     } catch (err) {
       setError(err.response?.data?.message || err.message || 'Failed to delete conflict.');

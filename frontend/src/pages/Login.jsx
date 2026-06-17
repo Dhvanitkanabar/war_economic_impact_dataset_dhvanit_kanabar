@@ -8,6 +8,8 @@ import { setCredentials, setLoading, setError, clearError } from '../features/au
 import FormInput from '../components/forms/FormInput';
 import SubmitButton from '../components/forms/SubmitButton';
 
+import toast from 'react-hot-toast';
+
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email address')
@@ -30,10 +32,17 @@ const Login = () => {
       const data = await loginUser({ email: values.email, password: values.password });
       if (data.token) localStorage.setItem('token', data.token);
       dispatch(setCredentials({ user: data.user, token: data.token }));
+      toast.success('Login successful');
       const from = location.state?.from?.pathname || '/dashboard';
       navigate(from, { replace: true });
     } catch (err) {
-      dispatch(setError(err.response?.data?.message || err.message || 'Login failed'));
+      const errMsg = err.response?.data?.message || err.message || 'Login failed';
+      dispatch(setError(errMsg));
+      if (err.response?.status === 400 || err.response?.status === 401) {
+        toast.error('Invalid credentials');
+      } else {
+        toast.error(errMsg);
+      }
     } finally {
       dispatch(setLoading(false));
     }

@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { store } from '../app/store';
 import { logout, setError } from '../features/auth/authSlice';
+import toast from 'react-hot-toast';
+
 // Fallback to the production URL if the env variable is missing
 const BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
@@ -39,15 +41,41 @@ axiosInstance.interceptors.response.use(
       );
     }
 
-    if (error.response?.status === 401 || error.response?.status === 403) {
-      localStorage.removeItem('token');
-      store.dispatch(setError('Session expired. Please sign in again.'));
-      store.dispatch(logout());
-      
-      // Optionally redirect, but standard React patterns usually handle this 
-      // via ProtectedRoute when isAuthenticated becomes false.
-      if (window.location.pathname !== '/login') {
-        window.location.href = '/login';
+    if (!error.response) {
+      toast.error('Network error');
+    } else {
+      const status = error.response.status;
+      const url = error.config?.url || '';
+
+      if (status === 400) {
+        if (url.includes('/login') || url.includes('/auth/login') || url.includes('/register') || url.includes('/auth/register')) {
+          toast.error('Invalid credentials');
+        } else {
+          toast.error('Server error');
+        }
+      } else if (status === 401) {
+        if (url.includes('/login') || url.includes('/auth/login')) {
+          toast.error('Invalid credentials');
+        } else {
+          toast.error('Session expired');
+        }
+        localStorage.removeItem('token');
+        store.dispatch(setError('Session expired. Please sign in again.'));
+        store.dispatch(logout());
+        
+        if (window.location.pathname !== '/login') {
+          window.location.href = '/login';
+        }
+      } else if (status === 403) {
+        toast.error('Forbidden request');
+      } else if (status === 404) {
+        if (url.includes('/conflicts')) {
+          toast.error('Conflict not found');
+        } else {
+          toast.error('Server error');
+        }
+      } else if (status >= 500) {
+        toast.error('Server error');
       }
     }
 
