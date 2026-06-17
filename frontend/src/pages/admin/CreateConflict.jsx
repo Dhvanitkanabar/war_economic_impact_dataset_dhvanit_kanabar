@@ -45,6 +45,8 @@ const ConflictSchema = Yup.object().shape({
     .required('This field is required'),
 });
 
+import toast from 'react-hot-toast';
+
 const CreateConflict = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -65,6 +67,7 @@ const CreateConflict = () => {
       };
 
       await createConflict(payload);
+      toast.success('Conflict created');
       resetForm();
       navigate('/conflicts');
     } catch (err) {

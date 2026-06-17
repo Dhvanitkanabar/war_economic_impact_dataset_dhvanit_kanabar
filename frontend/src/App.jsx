@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import MainLayout from './layouts/MainLayout.jsx';
 import Home from './pages/Home.jsx';
 import Conflicts from './pages/Conflicts.jsx';
@@ -36,8 +37,31 @@ function App() {
   }, []);
 
   return (
-    <Routes>
-      <Route path="/" element={<MainLayout />}>
+    <>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: '#1c212c',
+            color: '#eceef2',
+            border: '1px solid #2e3545',
+          },
+          success: {
+            iconTheme: {
+              primary: '#10b981',
+              secondary: '#1c212c',
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: '#ef4444',
+              secondary: '#1c212c',
+            },
+          },
+        }}
+      />
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="login" element={<GuestRoute><Login /></GuestRoute>} />
         <Route path="register" element={<GuestRoute><Register /></GuestRoute>} />
@@ -141,6 +165,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
+    </>
   );
 }
 

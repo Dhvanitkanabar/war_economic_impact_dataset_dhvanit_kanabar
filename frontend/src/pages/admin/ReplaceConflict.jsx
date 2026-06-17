@@ -45,6 +45,8 @@ const ConflictSchema = Yup.object().shape({
     .required('This field is required'),
 });
 
+import toast from 'react-hot-toast';
+
 const ReplaceConflict = () => {
   const { id } = useParams();
   const [initialValues, setInitialValues] = useState({
@@ -107,6 +109,7 @@ const ReplaceConflict = () => {
       };
 
       await replaceConflict(id, payload);
+      toast.success('Conflict replaced');
       navigate('/conflicts');
     } catch (err) {
       setError(err.response?.data?.message || err.message || 'Failed to replace conflict.');

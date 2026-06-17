@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import toast from 'react-hot-toast';
+
 const Settings = () => {
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
   const [rememberSession, setRememberSession] = useState(() => localStorage.getItem('rememberSession') || 'enabled');
@@ -30,6 +32,10 @@ const Settings = () => {
   useEffect(() => {
     sessionStorage.setItem('preserveFilters', preserveFilters);
   }, [preserveFilters]);
+
+  const handleSave = () => {
+    toast.success('Settings saved');
+  };
 
   return (
     <div className="flex-1 w-full max-w-2xl mx-auto px-6 py-12">
@@ -140,6 +146,15 @@ const Settings = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="flex justify-end">
+          <button
+            onClick={handleSave}
+            className="clip-corner-sm text-xs font-semibold bg-accent-500 hover:bg-accent-400 text-white px-6 py-2.5 transition-all"
+          >
+            Save Settings
+          </button>
         </div>
       </div>
     </div>
