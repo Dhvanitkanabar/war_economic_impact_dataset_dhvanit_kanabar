@@ -94,9 +94,6 @@ const Analytics = () => {
   const [stats, setStats] = useState(null);
   const [regionData, setRegionData] = useState([]);
   const [typeData, setTypeData] = useState([]);
-  const [warCostRegion, setWarCostRegion] = useState([]);
-  const [inflationRegion, setInflationRegion] = useState([]);
-  const [sectorData, setSectorData] = useState([]);
   const [rawConflicts, setRawConflicts] = useState([]);
 
   useEffect(() => {
@@ -114,9 +111,9 @@ const Analytics = () => {
           resStats,
           resRegion,
           resType,
-          resWarCost,
-          resInflation,
-          resSector,
+          _resWarCost,
+          _resInflation,
+          _resSector,
           resConflicts
         ] = await Promise.all([
           getStatsOverview().catch(() => null),
@@ -133,11 +130,8 @@ const Analytics = () => {
         const extractList = (d) => Array.isArray(d) ? d : (d?.data || d?.distribution || []);
         setRegionData(extractList(resRegion));
         setTypeData(extractList(resType));
-        setWarCostRegion(extractList(resWarCost));
-        setInflationRegion(extractList(resInflation));
-        setSectorData(extractList(resSector));
         setRawConflicts(extractList(resConflicts));
-      } catch (err) {
+      } catch {
         setError('Failed to load analytics dashboard data.');
       } finally {
         clearTimeout(timer);
@@ -298,7 +292,7 @@ const Analytics = () => {
                   outerRadius={80}
                   paddingAngle={5}
                   dataKey="value"
-                  label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
+                  label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
                 >
                   <Cell fill="#ef4444" />
                   <Cell fill="#10b981" />
@@ -322,7 +316,7 @@ const Analytics = () => {
                   cy="50%"
                   outerRadius={80}
                   dataKey="value"
-                  label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
+                  label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
                 >
                   {regionPieData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -348,7 +342,7 @@ const Analytics = () => {
                   innerRadius={30}
                   outerRadius={80}
                   dataKey="value"
-                  label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
+                  label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
                 >
                   {typePieData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[(index + 3) % COLORS.length]} />

@@ -176,7 +176,7 @@ const Dashboard = () => {
               {user?.name || user?.email?.split('@')[0] || 'Analyst'}
             </span>
           </h1>
-          <p className="text-muted text-sm mt-1">Here's the latest global conflict economic data.</p>
+          <p className="text-muted text-sm mt-1">Here&apos;s the latest global conflict economic data.</p>
         </div>
         <div className="flex items-center gap-2 text-xs text-muted">
           <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
