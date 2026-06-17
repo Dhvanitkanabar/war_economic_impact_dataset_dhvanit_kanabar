@@ -148,25 +148,6 @@ const Analytics = () => {
     fetchData();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex-1 w-full max-w-7xl mx-auto px-6 py-24 flex flex-col items-center justify-center gap-4">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-accent-500"></div>
-        <p className="text-sm font-mono text-ink-300 animate-pulse">{loadingMsg}</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex-1 w-full max-w-7xl mx-auto px-6 py-12">
-        <div className="p-4 bg-crimson-600/10 border border-crimson-600/30 rounded-xl text-sm text-crimson-400">
-          {error}
-        </div>
-      </div>
-    );
-  }
-
   // Derive counts & lists
   const totalConflicts = stats?.totalConflicts ?? rawConflicts.length ?? 0;
   const activeConflicts = stats?.ongoingConflicts ?? rawConflicts.filter(c => c.status === 'Ongoing').length ?? 0;
@@ -248,6 +229,25 @@ const Analytics = () => {
         'Avg Inflation (%)': g.countWithEcon > 0 ? Number((g.sumInflation / g.countWithEcon).toFixed(1)) : 0
       }));
   }, [rawConflicts]);
+
+  if (loading) {
+    return (
+      <div className="flex-1 w-full max-w-7xl mx-auto px-6 py-24 flex flex-col items-center justify-center gap-4">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-accent-500"></div>
+        <p className="text-sm font-mono text-ink-300 animate-pulse">{loadingMsg}</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex-1 w-full max-w-7xl mx-auto px-6 py-12">
+        <div className="p-4 bg-crimson-600/10 border border-crimson-600/30 rounded-xl text-sm text-crimson-400">
+          {error}
+        </div>
+      </div>
+    );
+  }
 
   // Check if any data exists (must be after all hook calls to satisfy rules of hooks)
   if (totalConflicts === 0 && regionData.length === 0 && typeData.length === 0) {
