@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getProfile } from '../services/authService';
 
 import toast from 'react-hot-toast';
+import SEO from '../components/SEO.jsx';
 
 const Profile = () => {
   const [profile, setProfile] = useState(null);
@@ -23,7 +24,7 @@ const Profile = () => {
   }, []);
 
   const handleUpdateProfile = () => {
-    toast.success('Profile updated');
+    toast.success('Feature coming soon');
   };
 
   if (isLoading) {
@@ -46,6 +47,7 @@ const Profile = () => {
 
   return (
     <div className="flex-1 w-full max-w-2xl mx-auto px-6 py-12">
+      <SEO title="Profile" description="View and manage your WarLens account profile settings." path="/profile" />
       <div className="mb-8">
         <h1 className="text-3xl font-black text-ink-50">Profile</h1>
         <p className="text-muted mt-2 text-sm">Manage your profile details and view session status.</p>

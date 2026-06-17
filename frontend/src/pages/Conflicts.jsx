@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import SEO from '../components/SEO.jsx';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -340,6 +341,7 @@ const Conflicts = () => {
   // ── Render ────────────────────────────────────────────────────────────────────
   return (
     <div className="flex-1 w-full max-w-7xl mx-auto px-6 py-12">
+      <SEO title="Conflicts" description="Explore the full database of global conflicts, filter by economic indicators, region, and type." path="/conflicts" />
       {/* Header */}
       <div className="mb-8 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div>

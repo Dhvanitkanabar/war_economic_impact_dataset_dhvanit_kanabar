@@ -23,6 +23,7 @@ const RegisterSchema = Yup.object().shape({
 });
 
 import toast from 'react-hot-toast';
+import SEO from '../components/SEO.jsx';
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -51,6 +52,7 @@ const Register = () => {
 
   return (
     <div className="flex-1 flex items-center justify-center p-6 py-16">
+      <SEO title="Register" description="Create a new WarLens account to track global conflict economic data." path="/register" />
       <div className="w-full max-w-md">
 
         {/* Header */}

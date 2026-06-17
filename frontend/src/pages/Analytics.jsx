@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import SEO from '../components/SEO.jsx';
 import {
   ResponsiveContainer,
   PieChart,
@@ -254,6 +255,7 @@ const Analytics = () => {
 
   return (
     <div className="flex-1 w-full max-w-7xl mx-auto px-6 py-12 flex flex-col gap-10">
+      <SEO title="Analytics" description="Explore interactive charts and economic trends to understand the impact of global conflicts." path="/analytics" />
       
       {/* ── Header ── */}
       <div>
