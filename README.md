@@ -261,9 +261,7 @@ Through this project, I gained hands-on experience in:
 ## 📈 Current Status
 
 ### Backend
-
 ✅ Completed
-
 * CRUD APIs
 * Search APIs
 * Statistics APIs
@@ -275,12 +273,67 @@ Through this project, I gained hands-on experience in:
 * Deployment
 
 ### Frontend
+✅ Completed
+* React / Vite Setup
+* Code Splitting (lazy loading) & Suspense
+* State Management (Redux Slices)
+* Responsive Analytics charts (Recharts)
+* Unified Notification and Error boundary system
 
-🚧 In Progress
+---
 
-* React Initialization
-* Architecture Setup
-* Dashboard Development (Upcoming)
+## 🚀 Installation & Quick Start
+
+### Prerequisites
+- Node.js (v18+)
+- MongoDB (running locally or Atlas cluster)
+
+### Setup Backend
+1. Navigate to the backend directory:
+   ```bash
+   cd backend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set environment variables in a `.env` file (e.g. `PORT=5000`, `MONGO_URI`, `JWT_SECRET`).
+4. Seed the database (optional):
+   ```bash
+   npm run seed
+   ```
+5. Start the backend development server:
+   ```bash
+   npm run dev
+   ```
+
+### Setup Frontend
+1. Navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set base URL in a `.env` file (e.g. `VITE_API_BASE_URL=http://localhost:5000/api`).
+4. Start the frontend:
+   ```bash
+   npm run dev
+   ```
+
+---
+
+## 📸 Screenshots & Previews
+
+*Here are some visual demonstrations of the application:*
+
+- **Dark Mode Analytics**:
+  *(A dynamic dark mode dashboard featuring pie charts for regional distribution, bar charts for cost comparisons, and line charts for historical trends)*
+- **Light Mode Transition**:
+  *(Theme-switched settings and profile menus showing polished, high-contrast light mode styling)*
+- **Interactive Map / Conflict Database**:
+  *(Advanced filtering fields and sorted paginated views for conflicts)*
 
 ---
 
@@ -296,3 +349,4 @@ Through this project, I gained hands-on experience in:
 ## 📜 License
 
 This project is developed for educational and academic purposes.
+

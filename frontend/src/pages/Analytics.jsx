@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   ResponsiveContainer,
   PieChart,
@@ -181,7 +181,75 @@ const Analytics = () => {
   const avgWarCost = totalConflicts > 0 ? totalWarCost / totalConflicts : 0;
   const avgReconCost = totalConflicts > 0 ? totalReconCost / totalConflicts : 0;
 
-  // Check if any data exists
+  // 1. Pie Chart: Conflict Status Distribution
+  const statusPieData = useMemo(() => [
+    { name: 'Active/Ongoing', value: activeConflicts },
+    { name: 'Ended/Resolved', value: endedConflicts }
+  ].filter(d => d.value > 0), [activeConflicts, endedConflicts]);
+
+  // 2. Pie Chart: Region Distribution
+  const regionPieData = useMemo(() => regionData.map(item => ({
+    name: item.region ?? 'Unknown',
+    value: item.totalConflicts ?? item.count ?? 0
+  })).filter(d => d.value > 0), [regionData]);
+
+  // 3. Pie Chart: Type Distribution
+  const typePieData = useMemo(() => typeData.map(item => ({
+    name: item.conflictType ?? 'Unknown',
+    value: item.totalConflicts ?? item.count ?? 0
+  })).filter(d => d.value > 0), [typeData]);
+
+  // 4. Bar Chart: War Cost & Reconstruction Cost comparisons
+  // Sort individual conflicts by cost
+  const sortedByWarCost = useMemo(() => [...rawConflicts]
+    .sort((a, b) => (b.warCostUsd || 0) - (a.warCostUsd || 0))
+    .slice(0, 8)
+    .map(c => ({
+      name: c.conflictName ?? c.primaryCountry ?? 'Unknown',
+      cost: c.warCostUsd ?? 0,
+      reconCost: c.reconstructionCostUsd ?? 0
+    })), [rawConflicts]);
+
+  // Sort individual conflicts by economic impacts
+  const sortedByGDP = useMemo(() => [...rawConflicts]
+    .sort((a, b) => (a.gdpChange || 0) - (b.gdpChange || 0)) // Most negative first
+    .slice(0, 8)
+    .map(c => ({
+      name: c.conflictName ?? c.primaryCountry ?? 'Unknown',
+      gdp: c.gdpChange ?? 0,
+      inflation: c.inflationRate ?? 0
+    })), [rawConflicts]);
+
+  // 5. Line Chart: Year-wise trends & Historical statistics
+  // Group conflicts by startYear
+  const lineChartData = useMemo(() => {
+    const yearGroups = {};
+    rawConflicts.forEach(c => {
+      const y = c.startYear;
+      if (y) {
+        if (!yearGroups[y]) {
+          yearGroups[y] = { year: y, count: 0, sumGDP: 0, sumInflation: 0, countWithEcon: 0 };
+        }
+        yearGroups[y].count += 1;
+        if (c.gdpChange != null && c.inflationRate != null) {
+          yearGroups[y].sumGDP += c.gdpChange;
+          yearGroups[y].sumInflation += c.inflationRate;
+          yearGroups[y].countWithEcon += 1;
+        }
+      }
+    });
+
+    return Object.values(yearGroups)
+      .sort((a, b) => a.year - b.year)
+      .map(g => ({
+        year: String(g.year),
+        'Conflict Count': g.count,
+        'Avg GDP Change (%)': g.countWithEcon > 0 ? Number((g.sumGDP / g.countWithEcon).toFixed(1)) : 0,
+        'Avg Inflation (%)': g.countWithEcon > 0 ? Number((g.sumInflation / g.countWithEcon).toFixed(1)) : 0
+      }));
+  }, [rawConflicts]);
+
+  // Check if any data exists (must be after all hook calls to satisfy rules of hooks)
   if (totalConflicts === 0 && regionData.length === 0 && typeData.length === 0) {
     return (
       <div className="flex-1 w-full max-w-7xl mx-auto px-6 py-12">
@@ -189,72 +257,6 @@ const Analytics = () => {
       </div>
     );
   }
-
-  // 1. Pie Chart: Conflict Status Distribution
-  const statusPieData = [
-    { name: 'Active/Ongoing', value: activeConflicts },
-    { name: 'Ended/Resolved', value: endedConflicts }
-  ].filter(d => d.value > 0);
-
-  // 2. Pie Chart: Region Distribution
-  const regionPieData = regionData.map(item => ({
-    name: item.region ?? 'Unknown',
-    value: item.totalConflicts ?? item.count ?? 0
-  })).filter(d => d.value > 0);
-
-  // 3. Pie Chart: Type Distribution
-  const typePieData = typeData.map(item => ({
-    name: item.conflictType ?? 'Unknown',
-    value: item.totalConflicts ?? item.count ?? 0
-  })).filter(d => d.value > 0);
-
-  // 4. Bar Chart: War Cost & Reconstruction Cost comparisons
-  // Sort individual conflicts by cost
-  const sortedByWarCost = [...rawConflicts]
-    .sort((a, b) => (b.warCostUsd || 0) - (a.warCostUsd || 0))
-    .slice(0, 8)
-    .map(c => ({
-      name: c.conflictName ?? c.primaryCountry ?? 'Unknown',
-      cost: c.warCostUsd ?? 0,
-      reconCost: c.reconstructionCostUsd ?? 0
-    }));
-
-  // Sort individual conflicts by economic impacts
-  const sortedByGDP = [...rawConflicts]
-    .sort((a, b) => (a.gdpChange || 0) - (b.gdpChange || 0)) // Most negative first
-    .slice(0, 8)
-    .map(c => ({
-      name: c.conflictName ?? c.primaryCountry ?? 'Unknown',
-      gdp: c.gdpChange ?? 0,
-      inflation: c.inflationRate ?? 0
-    }));
-
-  // 5. Line Chart: Year-wise trends & Historical statistics
-  // Group conflicts by startYear
-  const yearGroups = {};
-  rawConflicts.forEach(c => {
-    const y = c.startYear;
-    if (y) {
-      if (!yearGroups[y]) {
-        yearGroups[y] = { year: y, count: 0, sumGDP: 0, sumInflation: 0, countWithEcon: 0 };
-      }
-      yearGroups[y].count += 1;
-      if (c.gdpChange != null && c.inflationRate != null) {
-        yearGroups[y].sumGDP += c.gdpChange;
-        yearGroups[y].sumInflation += c.inflationRate;
-        yearGroups[y].countWithEcon += 1;
-      }
-    }
-  });
-
-  const lineChartData = Object.values(yearGroups)
-    .sort((a, b) => a.year - b.year)
-    .map(g => ({
-      year: String(g.year),
-      'Conflict Count': g.count,
-      'Avg GDP Change (%)': g.countWithEcon > 0 ? Number((g.sumGDP / g.countWithEcon).toFixed(1)) : 0,
-      'Avg Inflation (%)': g.countWithEcon > 0 ? Number((g.sumInflation / g.countWithEcon).toFixed(1)) : 0
-    }));
 
   return (
     <div className="flex-1 w-full max-w-7xl mx-auto px-6 py-12 flex flex-col gap-10">

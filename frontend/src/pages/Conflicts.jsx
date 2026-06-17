@@ -292,7 +292,7 @@ const Conflicts = () => {
 
   // ── Handlers ──────────────────────────────────────────────────────────────────
 
-  const handleDelete = async (id) => {
+  const handleDelete = useCallback(async (id) => {
     // Warning notification before proceeding with deletion confirmation
     toast('Warning: Deleting a conflict is a permanent action.', {
       icon: '⚠️',
@@ -313,41 +313,44 @@ const Conflicts = () => {
       setError(err.response?.data?.message || err.message || 'Failed to delete conflict.');
       setConflicts((prev) => prev.map((c) => c.id === id ? { ...c, isDeleting: false } : c));
     }
-  };
+  }, [page, fetchConflicts]);
 
-  const handleFilterChange = (e) => {
+  const handleFilterChange = useCallback((e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
     setPage(1); // Reset to page 1 on filter change
-  };
+  }, []);
 
-  const handleResetFilters = () => {
+  const handleResetFilters = useCallback(() => {
     setFilters(DEFAULT_FILTERS);
     setPage(1);
-  };
+  }, []);
 
-  const handleSort = (field) => {
-    if (sortField === field) {
-      setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'));
-    } else {
-      setSortField(field);
-      setSortOrder('asc');
-    }
+  const handleSort = useCallback((field) => {
+    setSortField((currentField) => {
+      if (currentField === field) {
+        setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+        return currentField;
+      } else {
+        setSortOrder('asc');
+        return field;
+      }
+    });
     setPage(1);
-  };
+  }, []);
 
-  const handleSortSelectChange = (e) => {
+  const handleSortSelectChange = useCallback((e) => {
     const [field, order] = e.target.value.split(':');
     setSortField(field);
     setSortOrder(order);
     setPage(1);
-  };
+  }, []);
 
-  const handlePageChange = (p) => {
+  const handlePageChange = useCallback((p) => {
     if (p >= 1 && p <= totalPages) {
       setPage(p);
     }
-  };
+  }, [totalPages]);
 
   // ── Render ────────────────────────────────────────────────────────────────────
   return (

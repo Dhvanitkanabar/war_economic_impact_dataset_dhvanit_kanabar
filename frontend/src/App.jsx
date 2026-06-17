@@ -1,26 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import MainLayout from './layouts/MainLayout.jsx';
 import Home from './pages/Home.jsx';
-import Conflicts from './pages/Conflicts.jsx';
-import Statistics from './pages/Statistics.jsx';
-import Analytics from './pages/Analytics.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import NotFound from './pages/NotFound.jsx';
 import ApiTest from './pages/ApiTest.jsx';
-import Dashboard from './pages/Dashboard.jsx';
+import Unauthorized from './pages/Unauthorized.jsx';
 import ProtectedRoute from './components/auth/ProtectedRoute.jsx';
 import AdminRoute from './components/auth/AdminRoute.jsx';
 import GuestRoute from './components/auth/GuestRoute.jsx';
-import Unauthorized from './pages/Unauthorized.jsx';
-import AdminPanel from './pages/AdminPanel.jsx';
-import CreateConflict from './pages/admin/CreateConflict.jsx';
-import EditConflict from './pages/admin/EditConflict.jsx';
-import ReplaceConflict from './pages/admin/ReplaceConflict.jsx';
-import Profile from './pages/Profile.jsx';
-import Settings from './pages/Settings.jsx';
+
+// Lazy loaded pages
+const Dashboard = lazy(() => import('./pages/Dashboard.jsx'));
+const Conflicts = lazy(() => import('./pages/Conflicts.jsx'));
+const Statistics = lazy(() => import('./pages/Statistics.jsx'));
+const Analytics = lazy(() => import('./pages/Analytics.jsx'));
+const Profile = lazy(() => import('./pages/Profile.jsx'));
+const Settings = lazy(() => import('./pages/Settings.jsx'));
+const AdminPanel = lazy(() => import('./pages/AdminPanel.jsx'));
+const CreateConflict = lazy(() => import('./pages/admin/CreateConflict.jsx'));
+const EditConflict = lazy(() => import('./pages/admin/EditConflict.jsx'));
+const ReplaceConflict = lazy(() => import('./pages/admin/ReplaceConflict.jsx'));
+
+const LoadingPage = () => (
+  <div className="flex-1 w-full min-h-[60vh] flex flex-col items-center justify-center gap-4">
+    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-accent-500"></div>
+    <p className="text-sm font-mono text-ink-300 animate-pulse">Loading page...</p>
+  </div>
+);
 
 function App() {
   useEffect(() => {
@@ -60,8 +69,9 @@ function App() {
           },
         }}
       />
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
+      <Suspense fallback={<LoadingPage />}>
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="login" element={<GuestRoute><Login /></GuestRoute>} />
         <Route path="register" element={<GuestRoute><Register /></GuestRoute>} />
@@ -165,6 +175,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
+    </Suspense>
     </>
   );
 }
